@@ -1,0 +1,144 @@
+<additional>
+  <laneAreaDetector file="./output/e2_L239_0_0.txt" freq="100" id="e2_L239_0_0" lane="L239_0" length="36.12" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L239_1_0.txt" freq="100" id="e2_L239_1_0" lane="L239_1" length="36.12" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L239_2_0.txt" freq="100" id="e2_L239_2_0" lane="L239_2" length="36.12" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L239_3_0.txt" freq="100" id="e2_L239_3_0" lane="L239_3" length="36.12" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L249_0_1.txt" freq="100" id="e2_L249_0_1" lane="L249_0" length="54.98" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L249_1_1.txt" freq="100" id="e2_L249_1_1" lane="L249_1" length="54.98" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L249_2_1.txt" freq="100" id="e2_L249_2_1" lane="L249_2" length="54.98" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L249_3_1.txt" freq="100" id="e2_L249_3_1" lane="L249_3" length="54.98" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L232_0_1.txt" freq="100" id="e2_L232_0_1" lane="L232_0" length="82.62" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L232_1_1.txt" freq="100" id="e2_L232_1_1" lane="L232_1" length="82.62" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L232_2_1.txt" freq="100" id="e2_L232_2_1" lane="L232_2" length="82.62" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L232_3_1.txt" freq="100" id="e2_L232_3_1" lane="L232_3" length="82.62" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L232_4_1.txt" freq="100" id="e2_L232_4_1" lane="L232_4" length="82.62" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L10009_0_2.txt" freq="100" id="e2_L10009_0_2" lane="L10009_0" length="427.63" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L10009_1_2.txt" freq="100" id="e2_L10009_1_2" lane="L10009_1" length="427.63" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L10009_2_2.txt" freq="100" id="e2_L10009_2_2" lane="L10009_2" length="427.63" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L40412_0_3.txt" freq="100" id="e2_L40412_0_3" lane="L40412_0" length="570.2" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L40412_1_3.txt" freq="100" id="e2_L40412_1_3" lane="L40412_1" length="570.2" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L40412_2_3.txt" freq="100" id="e2_L40412_2_3" lane="L40412_2" length="570.2" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L40279_0_3.txt" freq="100" id="e2_L40279_0_3" lane="L40279_0" length="181.81" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L40279_1_3.txt" freq="100" id="e2_L40279_1_3" lane="L40279_1" length="181.81" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L40279_2_3.txt" freq="100" id="e2_L40279_2_3" lane="L40279_2" length="181.81" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L40523_0_3.txt" freq="100" id="e2_L40523_0_3" lane="L40523_0" length="196.39" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L40523_1_3.txt" freq="100" id="e2_L40523_1_3" lane="L40523_1" length="196.39" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L40523_2_3.txt" freq="100" id="e2_L40523_2_3" lane="L40523_2" length="196.39" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L40539_0_4.txt" freq="100" id="e2_L40539_0_4" lane="L40539_0" length="965.47" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L40539_1_4.txt" freq="100" id="e2_L40539_1_4" lane="L40539_1" length="965.47" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L40539_2_4.txt" freq="100" id="e2_L40539_2_4" lane="L40539_2" length="965.47" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L197#2_0_0.txt" freq="100" id="e2_L197#2_0_0" lane="L197#2_0" length="30" pos="38.75"/>
+  <laneAreaDetector file="./output/e2_L197#2_1_0.txt" freq="100" id="e2_L197#2_1_0" lane="L197#2_1" length="30" pos="38.75"/>
+  <laneAreaDetector file="./output/e2_L197#2_2_0.txt" freq="100" id="e2_L197#2_2_0" lane="L197#2_2" length="30" pos="38.75"/>
+  <laneAreaDetector file="./output/e2_L197#2_3_0.txt" freq="100" id="e2_L197#2_3_0" lane="L197#2_3" length="30" pos="38.75"/>
+  <laneAreaDetector file="./output/e2_L197#2_4_0.txt" freq="100" id="e2_L197#2_4_0" lane="L197#2_4" length="30" pos="38.75"/>
+  <laneAreaDetector file="./output/e2_L197#2_0_1.txt" freq="100" id="e2_L197#2_0_1" lane="L197#2_0" length="38.75" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L197#2_1_1.txt" freq="100" id="e2_L197#2_1_1" lane="L197#2_1" length="38.75" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L197#2_2_1.txt" freq="100" id="e2_L197#2_2_1" lane="L197#2_2" length="38.75" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L197#2_3_1.txt" freq="100" id="e2_L197#2_3_1" lane="L197#2_3" length="38.75" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L197#2_4_1.txt" freq="100" id="e2_L197#2_4_1" lane="L197#2_4" length="38.75" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L197#1_0_1.txt" freq="100" id="e2_L197#1_0_1" lane="L197#1_0" length="218.71" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L197#1_1_1.txt" freq="100" id="e2_L197#1_1_1" lane="L197#1_1" length="218.71" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L197#1_2_1.txt" freq="100" id="e2_L197#1_2_1" lane="L197#1_2" length="218.71" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L197#1_3_1.txt" freq="100" id="e2_L197#1_3_1" lane="L197#1_3" length="218.71" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L193#2_0_1.txt" freq="100" id="e2_L193#2_0_1" lane="L193#2_0" length="98.56" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L193#2_1_1.txt" freq="100" id="e2_L193#2_1_1" lane="L193#2_1" length="98.56" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L193#2_2_1.txt" freq="100" id="e2_L193#2_2_1" lane="L193#2_2" length="98.56" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L193#2_3_1.txt" freq="100" id="e2_L193#2_3_1" lane="L193#2_3" length="98.56" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L193#2_4_1.txt" freq="100" id="e2_L193#2_4_1" lane="L193#2_4" length="98.56" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L193#1_0_2.txt" freq="100" id="e2_L193#1_0_2" lane="L193#1_0" length="235.89" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L193#1_1_2.txt" freq="100" id="e2_L193#1_1_2" lane="L193#1_1" length="235.89" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L193#1_2_2.txt" freq="100" id="e2_L193#1_2_2" lane="L193#1_2" length="235.89" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L193#1_3_2.txt" freq="100" id="e2_L193#1_3_2" lane="L193#1_3" length="235.89" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L37_0_2.txt" freq="100" id="e2_L37_0_2" lane="L37_0" length="54.19" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L37_1_2.txt" freq="100" id="e2_L37_1_2" lane="L37_1" length="54.19" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L37_2_2.txt" freq="100" id="e2_L37_2_2" lane="L37_2" length="54.19" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L37_3_2.txt" freq="100" id="e2_L37_3_2" lane="L37_3" length="54.19" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L250_0_2.txt" freq="100" id="e2_L250_0_2" lane="L250_0" length="139.54" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L250_1_2.txt" freq="100" id="e2_L250_1_2" lane="L250_1" length="139.54" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L250_2_2.txt" freq="100" id="e2_L250_2_2" lane="L250_2" length="139.54" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L250_3_2.txt" freq="100" id="e2_L250_3_2" lane="L250_3" length="139.54" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L237_0_3.txt" freq="100" id="e2_L237_0_3" lane="L237_0" length="31.59" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L237_1_3.txt" freq="100" id="e2_L237_1_3" lane="L237_1" length="31.59" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L237_2_3.txt" freq="100" id="e2_L237_2_3" lane="L237_2" length="31.59" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L237_3_3.txt" freq="100" id="e2_L237_3_3" lane="L237_3" length="31.59" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L25_0_3.txt" freq="100" id="e2_L25_0_3" lane="L25_0" length="235.52" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L25_1_3.txt" freq="100" id="e2_L25_1_3" lane="L25_1" length="235.52" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L25_2_3.txt" freq="100" id="e2_L25_2_3" lane="L25_2" length="235.52" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L25_3_3.txt" freq="100" id="e2_L25_3_3" lane="L25_3" length="235.52" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L40_0_0.txt" freq="100" id="e2_L40_0_0" lane="L40_0" length="30" pos="485.18"/>
+  <laneAreaDetector file="./output/e2_L40_1_0.txt" freq="100" id="e2_L40_1_0" lane="L40_1" length="30" pos="485.18"/>
+  <laneAreaDetector file="./output/e2_L40_2_0.txt" freq="100" id="e2_L40_2_0" lane="L40_2" length="30" pos="485.18"/>
+  <laneAreaDetector file="./output/e2_L40_3_0.txt" freq="100" id="e2_L40_3_0" lane="L40_3" length="30" pos="485.18"/>
+  <laneAreaDetector file="./output/e2_L40_0_1.txt" freq="100" id="e2_L40_0_1" lane="L40_0" length="170" pos="315.18"/>
+  <laneAreaDetector file="./output/e2_L40_1_1.txt" freq="100" id="e2_L40_1_1" lane="L40_1" length="170" pos="315.18"/>
+  <laneAreaDetector file="./output/e2_L40_2_1.txt" freq="100" id="e2_L40_2_1" lane="L40_2" length="170" pos="315.18"/>
+  <laneAreaDetector file="./output/e2_L40_3_1.txt" freq="100" id="e2_L40_3_1" lane="L40_3" length="170" pos="315.18"/>
+  <laneAreaDetector file="./output/e2_L40_0_2.txt" freq="100" id="e2_L40_0_2" lane="L40_0" length="315.18" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L40_1_2.txt" freq="100" id="e2_L40_1_2" lane="L40_1" length="315.18" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L40_2_2.txt" freq="100" id="e2_L40_2_2" lane="L40_2" length="315.18" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L40_3_2.txt" freq="100" id="e2_L40_3_2" lane="L40_3" length="315.18" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L570_0_3.txt" freq="100" id="e2_L570_0_3" lane="L570_0" length="148.98" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L570_1_3.txt" freq="100" id="e2_L570_1_3" lane="L570_1" length="148.98" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L570_2_3.txt" freq="100" id="e2_L570_2_3" lane="L570_2" length="148.98" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L565_0_3.txt" freq="100" id="e2_L565_0_3" lane="L565_0" length="401.31" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L565_1_3.txt" freq="100" id="e2_L565_1_3" lane="L565_1" length="401.31" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L565_2_3.txt" freq="100" id="e2_L565_2_3" lane="L565_2" length="401.31" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L10189_0_0.txt" freq="100" id="e2_L10189_0_0" lane="L10189_0" length="30" pos="141.59"/>
+  <laneAreaDetector file="./output/e2_L10189_1_0.txt" freq="100" id="e2_L10189_1_0" lane="L10189_1" length="30" pos="141.59"/>
+  <laneAreaDetector file="./output/e2_L10189_2_0.txt" freq="100" id="e2_L10189_2_0" lane="L10189_2" length="30" pos="141.59"/>
+  <laneAreaDetector file="./output/e2_L10189_3_0.txt" freq="100" id="e2_L10189_3_0" lane="L10189_3" length="30" pos="141.59"/>
+  <laneAreaDetector file="./output/e2_L10189_0_1.txt" freq="100" id="e2_L10189_0_1" lane="L10189_0" length="141.59" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L10189_1_1.txt" freq="100" id="e2_L10189_1_1" lane="L10189_1" length="141.59" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L10189_2_1.txt" freq="100" id="e2_L10189_2_1" lane="L10189_2" length="141.59" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L10189_3_1.txt" freq="100" id="e2_L10189_3_1" lane="L10189_3" length="141.59" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L10130_0_2.txt" freq="100" id="e2_L10130_0_2" lane="L10130_0" length="246.38" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L10130_1_2.txt" freq="100" id="e2_L10130_1_2" lane="L10130_1" length="246.38" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L10130_2_2.txt" freq="100" id="e2_L10130_2_2" lane="L10130_2" length="246.38" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L10130_3_2.txt" freq="100" id="e2_L10130_3_2" lane="L10130_3" length="246.38" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L64_0_3.txt" freq="100" id="e2_L64_0_3" lane="L64_0" length="277.38" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L64_1_3.txt" freq="100" id="e2_L64_1_3" lane="L64_1" length="277.38" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L64_2_3.txt" freq="100" id="e2_L64_2_3" lane="L64_2" length="277.38" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L64_3_3.txt" freq="100" id="e2_L64_3_3" lane="L64_3" length="277.38" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L40404_0_4.txt" freq="100" id="e2_L40404_0_4" lane="L40404_0" length="27.24" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L40404_1_4.txt" freq="100" id="e2_L40404_1_4" lane="L40404_1" length="27.24" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L40404_2_4.txt" freq="100" id="e2_L40404_2_4" lane="L40404_2" length="27.24" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L40404_3_4.txt" freq="100" id="e2_L40404_3_4" lane="L40404_3" length="27.24" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L40273_0_4.txt" freq="100" id="e2_L40273_0_4" lane="L40273_0" length="64.06" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L40273_1_4.txt" freq="100" id="e2_L40273_1_4" lane="L40273_1" length="64.06" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L40273_2_4.txt" freq="100" id="e2_L40273_2_4" lane="L40273_2" length="64.06" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L40273_3_4.txt" freq="100" id="e2_L40273_3_4" lane="L40273_3" length="64.06" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L602_0_4.txt" freq="100" id="e2_L602_0_4" lane="L602_0" length="67.15" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L602_1_4.txt" freq="100" id="e2_L602_1_4" lane="L602_1" length="67.15" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L601_0_4.txt" freq="100" id="e2_L601_0_4" lane="L601_0" length="337.93" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L601_1_4.txt" freq="100" id="e2_L601_1_4" lane="L601_1" length="337.93" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L10150_0_0.txt" freq="100" id="e2_L10150_0_0" lane="L10150_0" length="50.0" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L10150_1_0.txt" freq="100" id="e2_L10150_1_0" lane="L10150_1" length="50.0" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L10150_2_0.txt" freq="100" id="e2_L10150_2_0" lane="L10150_2" length="50.0" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L10150_3_0.txt" freq="100" id="e2_L10150_3_0" lane="L10150_3" length="50.0" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L30_0_0.txt" freq="100" id="e2_L30_0_0" lane="L30_0" length="50.0" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L30_1_0.txt" freq="100" id="e2_L30_1_0" lane="L30_1" length="50.0" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L30_2_0.txt" freq="100" id="e2_L30_2_0" lane="L30_2" length="50.0" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L30_3_0.txt" freq="100" id="e2_L30_3_0" lane="L30_3" length="50.0" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L72_0_0.txt" freq="100" id="e2_L72_0_0" lane="L72_0" length="50.0" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L72_1_0.txt" freq="100" id="e2_L72_1_0" lane="L72_1" length="50.0" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L72_2_0.txt" freq="100" id="e2_L72_2_0" lane="L72_2" length="50.0" pos="0.0"/>
+  <laneAreaDetector file="./output/e2_L72_3_0.txt" freq="100" id="e2_L72_3_0" lane="L72_3" length="50.0" pos="0.0"/>
+  <inductionLoop file="./output/e1_L40_0.txt" freq="100" id="e1_L40_0" lane="L40_0" pos="500"/>
+  <inductionLoop file="./output/e1_L40_1.txt" freq="100" id="e1_L40_1" lane="L40_1" pos="500"/>
+  <inductionLoop file="./output/e1_L40_2.txt" freq="100" id="e1_L40_2" lane="L40_2" pos="500"/>
+  <inductionLoop file="./output/e1_L40_3.txt" freq="100" id="e1_L40_3" lane="L40_3" pos="500"/>
+  <inductionLoop file="./output/e1_L197#2_0.txt" freq="100" id="e1_L197#2_0" lane="L197#2_0" pos="60"/>
+  <inductionLoop file="./output/e1_L197#2_1.txt" freq="100" id="e1_L197#2_1" lane="L197#2_1" pos="60"/>
+  <inductionLoop file="./output/e1_L197#2_2.txt" freq="100" id="e1_L197#2_2" lane="L197#2_2" pos="60"/>
+  <inductionLoop file="./output/e1_L197#2_3.txt" freq="100" id="e1_L197#2_3" lane="L197#2_3" pos="60"/>
+  <inductionLoop file="./output/e1_L197#2_4.txt" freq="100" id="e1_L197#2_4" lane="L197#2_4" pos="60"/>
+  <inductionLoop file="./output/e1_L10189_0.txt" freq="100" id="e1_L10189_0" lane="L10189_0" pos="165"/>
+  <inductionLoop file="./output/e1_L10189_1.txt" freq="100" id="e1_L10189_1" lane="L10189_1" pos="165"/>
+  <inductionLoop file="./output/e1_L10189_2.txt" freq="100" id="e1_L10189_2" lane="L10189_2" pos="165"/>
+  <inductionLoop file="./output/e1_L10189_3.txt" freq="100" id="e1_L10189_3" lane="L10189_3" pos="165"/>
+  <inductionLoop file="./output/e1_L239_0.txt" freq="100" id="e1_L239_0" lane="L239_0" pos="30"/>
+  <inductionLoop file="./output/e1_L239_1.txt" freq="100" id="e1_L239_1" lane="L239_1" pos="30"/>
+  <inductionLoop file="./output/e1_L239_2.txt" freq="100" id="e1_L239_2" lane="L239_2" pos="30"/>
+  <inductionLoop file="./output/e1_L239_3.txt" freq="100" id="e1_L239_3" lane="L239_3" pos="30"/>
+</additional>

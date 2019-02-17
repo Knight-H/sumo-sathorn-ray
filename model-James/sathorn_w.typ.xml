@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<types>
+    <type id="1_lane" priority="1" numLanes="1" speed="15"/>
+    <type id="2_lane" priority="1" numLanes="2" speed="15"/>
+    <type id="3_lane" priority="1" numLanes="3" speed="15"/>
+    <type id="4_lane" priority="1" numLanes="4" speed="15"/>
+    <type id="5_lane" priority="1" numLanes="5" speed="15"/>
+    <type id="6_lane" priority="1" numLanes="6" speed="15"/>
+	<type id="7_lane" priority="1" numLanes="7" speed="15"/>
+	<type id="8_lane" priority="1" numLanes="8" speed="15"/>
+	<type id="9_lane" priority="1" numLanes="9" speed="15"/>
+</types>
