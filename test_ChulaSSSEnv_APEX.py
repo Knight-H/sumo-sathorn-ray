@@ -2,38 +2,26 @@ import ray
 import ray.tune  as tune
 
 from ChulaSSSEnv import ChulaSSSEnv
-import logger_callbacks 
 
 if __name__ == "__main__":
-    ray.init(#object_store_memory=int(4e9),  # 4gb
+    ray.init(
+             #object_store_memory=int(4e9),  # 4gb
              #redis_max_memory=int(2e9)  #2gb
              )
     experiment_spec = tune.Experiment(
-        name = "test_ChulaSSSEnv_DQN2",
-        run = "DQN",
+        name = "experiment_apex4",
+        run = "APEX",
         checkpoint_freq = 3,
         checkpoint_at_end = True,
-        stop = {
-            "training_iteration" : 1
-        },
         config = {
-            # === Configure Callbacks ===
-            "callbacks": {
-                    "on_episode_start": tune.function(logger_callbacks.on_episode_start),
-                    "on_episode_step": tune.function(logger_callbacks.on_episode_step),
-                    "on_episode_end": tune.function(logger_callbacks.on_episode_end),
-                    "on_sample_end": tune.function(logger_callbacks.on_sample_end),
-                    "on_train_result": tune.function(logger_callbacks.on_train_result),
-            },
-            
             # === Resources ===
             # Number of actors used for parallelism
-            "num_workers": 0,
+            "num_workers": 2,
             # Number of GPUs to allocate to the driver. Note that not all algorithms
             # can take advantage of driver GPUs. This can be fraction (e.g., 0.3 GPUs).
             "num_gpus": 0,
             # Number of CPUs to allocate per worker.
-            "num_cpus_per_worker": 4,
+            "num_cpus_per_worker": 1,
             # Number of GPUs to allocate per worker. This can be fractional.
             "num_gpus_per_worker": 0,
             # Any custom resources to allocate per worker.
@@ -45,7 +33,7 @@ if __name__ == "__main__":
 
             # === Execution ===
             # Number of environments to evaluate vectorwise per worker.
-##            "num_envs_per_worker": 1,
+            "num_envs_per_worker": 1,
             # Default sample batch size
             "sample_batch_size": 4,
             # Training batch size, if applicable. Should be >= sample_batch_size.
@@ -76,11 +64,10 @@ if __name__ == "__main__":
             # exploration_fraction
             "schedule_max_timesteps": 100000,
             # Number of env steps to optimize for before returning
-                        #morning: 10800/10 = 1080 steps total 
             "timesteps_per_iteration": 1080,
             # Fraction of entire training period over which the exploration rate is
             # annealed
-            "exploration_fraction": .5,
+            "exploration_fraction": 0.5,
             # Final value of random action probability
             "exploration_final_eps": 0.1,
             # Update the target network every `target_network_update_freq` steps.
@@ -126,13 +113,13 @@ if __name__ == "__main__":
 
             # === Parallelism ===
             # Optimizer class to use.
-            "optimizer_class": "SyncReplayOptimizer",
+            "optimizer_class": "AsyncReplayOptimizer",
             # Whether to use a distribution of epsilons across workers for exploration.
             "per_worker_exploration": False,
             # Whether to compute priorities on workers.
             "worker_side_prioritization": False,
             # Prevent iterations from going lower than this time span
-            "min_iter_time_s": 1,
+            "min_iter_time_s": 30,
             
 
             # === Environment ===
@@ -155,10 +142,49 @@ if __name__ == "__main__":
                        "step_size" : 10,
                        "alpha":10,
                        "beta":1,
-                        "name" : "test_ChulaSSSEnv_DQN2"
                        }
             
             }
         
         )
-    tune.run_experiments(experiment_spec, resume='prompt', raise_on_failed_trial=False)
+    tune.run_experiments(experiment_spec, resume='prompt')
+##    tune.run_experiments({
+##            "experiment1":{
+##                "run": "APEX",
+##                "env": ChulaSSSEnv,
+##                "config": {"observation_space": "default",
+##                       "time_select" : "morning",
+##                       "great_edition" : True,
+##                       "with_gui" : True,
+##                       "with_libsumo" : True,
+##                       "no_internal_links" : True,
+##                       "time_to_teleport": -1,
+##                       "viewport": "surasak",
+##                       "step_length": 1,
+##                       "seed" : 20,
+##                       "impatience_time": 300,
+##                       "step_size" : 10,
+##                       "alpha":10,
+##                       "beta":1,
+##                       }
+##                },
+##        })
+##    trainer = dqn.DQNAgent(env=ChulaSSSEnv, config={
+##        "env_config": {"observation_space": "default",
+##                       "time_select" : "morning",
+##                       "great_edition" : True,
+##                       "with_gui" : True,
+##                       "with_libsumo" : True,
+##                       "no_internal_links" : True,
+##                       "time_to_teleport": -1,
+##                       "viewport": "surasak",
+##                       "step_length": 1,
+##                       "seed" : 20,
+##                       "impatience_time": 300,
+##                       "step_size" : 5,
+##                       "alpha":1,
+##                       "beta":1,
+##                       }
+##    })
+##    while True:
+##        print(trainer.train())

@@ -46,6 +46,7 @@ class ChulaSSSEnv(gym.Env):
         print("i have env_config " , env_config)
         self.alpha = env_config['alpha']
         self.beta = env_config['beta']
+        self.name = env_config['name'] # for pickle
 
         print("i am defining action space")
         # Define action space and observation space
@@ -203,23 +204,25 @@ class ChulaSSSEnv(gym.Env):
             traci.simulationStep(step=self._step)
             total_throughput += self._getThroughput()
 
-        
-
+        _travel_times = self._getTravelTimes() # Return dictionary of travel times
+        _jam_lengths = self._getJamLengths()   # Return dictionary of jam lengths
 
         observation = self._getObservation()
-        reward = self._getReward(total_throughput, observation[0][:-3]) #neglect downstream
+        reward, _backlog = self._getReward(total_throughput, observation[0][:-3]) #neglect downstream
         done = (self._step >= self.end_time)        # done if step is more than end time
-        _cars_inside = np.dot(observation[0][:-3]/100, self.cell_capacities)
-        info = {"Throughput": total_throughput,
-                "Cars inside" : _cars_inside
+        info = {"total_throughput": total_throughput,
+                "backlog" : _backlog,
+                "name": self.name,
                 }
+        info = {**info, **_travel_times, **_jam_lengths} # Merge all dictionaies
+##        print(info)
 
         if WITH_LIBSUMO and not WITH_GUI:
             print("Step {}/{} Reward: {} Throughput: {} Backlog: {}".format(self._step,
                                                                             self.end_time,
                                                                             int(reward),
                                                                             total_throughput,
-                                                                            int(_cars_inside)),
+                                                                            int(_backlog)),
                   end = '\r'
                   )
         return observation, reward, done, info
@@ -232,9 +235,47 @@ class ChulaSSSEnv(gym.Env):
         traci.close()
 
     def _getReward(self, throughput, occupancy):
-        """Returns the reward given throughput and occupancy OF UPSTREAM"""
+        """Returns the reward given throughput and occupancy OF UPSTREAM and backlog"""
+        backlog = np.dot(occupancy/100, self.cell_capacities)
+        reward = self.alpha*throughput - self.beta*backlog
+        return reward, backlog
+
+    def _getTravelTimes(self):
+        """Returns a dictionary of Travel Times"""
+        _travel_dict = {}
         
-        return self.alpha*throughput - self.beta*np.dot(occupancy/100, self.cell_capacities)
+        _TRAVEL_TIMES = ("travel_time_171", "travel_time_172", "travel_time_173")
+        _ROUTE_171 = "L1688 L3156 L3160 L1732 L3236 L593 L813 L558 L575 L565 L570 L40 L30 L58#1 L58#2 L60 L73 L10149#1 L10149#2 L138 L133 L133.25 L135 L140#1 L140#2 L185 L139 L144 L143 L145 L221 L155 L10017 L10168 L3608 L2010 L3633 L3675 L3676 L13681 L14388 L13695 L2063 L3699 L2069 L3716 L3755 L13759 L12124"
+        _ROUTE_172 = "L90181 L48 L140#1 L140#2 L233 L179 L10188 L10189 L30 L58#1 L58#2 L60 L73 L10149#1 L10149#2 L30933"
+        _ROUTE_173 = "L1688 L3156 L3160 L1732 L3236 L593 L813 L558 L575 L565 L570 L40 L30 L58#1 L58#2 L60 L73 L10149#1 L10149#2 L138 L133 L133.25 L135 L140#1 L140#2 L233 L179 L10188 L10189 L30 L10059 L40274 L40407 L40524 L1163 L40173 L40304 L40415 L40453 L40172 L40303 L2584 L900190313"
+        _ROUTES = (_ROUTE_171, _ROUTE_172, _ROUTE_173)
+
+        for travel_time, route in zip(_TRAVEL_TIMES, _ROUTES):
+            for edge in route.split(' '):
+                _travel_dict[travel_time] = _travel_dict.get(travel_time, 0) + traci.edge.getTraveltime(edge)
+        return _travel_dict
+            
+    def _getJamLengths(self):
+        """Returns a dictionary of Jam Lengths"""
+        _jam_dict = {}
+        
+        _JAM_LENGTHS = ("jam_length_surasak", "jam_length_charoenRat", "jam_length_sathornS", "jam_length_sathornN")
+        _DETECTORS = (detector_surasak, detector_charoenRat, detector_sathornS, detector_sathornN)
+        
+        for jam_length, detector_list in zip(_JAM_LENGTHS, _DETECTORS):
+            # Jam Lengths over EACH edges in EACH cell
+            jam_lengths = []
+            for cell_id, cell in enumerate(detector_list):
+                for edge, _ , _  in cell:
+                    # Average Jam Lengths of ONE edge
+                    avg_jam_length = []
+                    for lane in range(NUM_LANES[edge]):
+                        avg_jam_length.append(traci.lanearea.getJamLengthMeters("e2_{}_{}_{}".format(edge, lane, cell_id)))
+                    avg_jam_length = np.mean(avg_jam_length)
+
+                    jam_lengths.append(avg_jam_length)                
+            _jam_dict[jam_length] = np.sum(jam_lengths)
+        return _jam_dict
         
 
     def _getThroughput(self):
