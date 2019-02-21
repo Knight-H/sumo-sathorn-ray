@@ -55,7 +55,7 @@ def main():
                         help='N-step Q learning')
     parser.add_argument('--gpu', action='store', nargs=1, default=1, type=int,
                         help='Number of GPU')
-    parser.add_argument('--workers', action='store', nargs=1, default=16, type=int,
+    parser.add_argument('--workers', action='store', nargs=1, default=15, type=int,
                         help='Number of workers')
     parser.add_argument('--learningStart', action='store', nargs=1, default=4320, type=int,
                         help='Steps before Learning starts')
