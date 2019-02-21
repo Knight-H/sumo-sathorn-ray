@@ -11,6 +11,6 @@ cd $SUMO_HOME && sed -i '74s/.*/set(Python_ADDITIONAL_VERSIONS 3.7 3.6 3.5 3.4 3
 
 make -j 16
 
-git clone https://github.com/Knight-H/sumo-sathorn-ray
+cd ~ && git clone https://github.com/Knight-H/sumo-sathorn-ray
 
-cd sumo-sathorn-ray
+cd sumo-sathorn-ray 
