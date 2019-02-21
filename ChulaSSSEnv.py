@@ -110,8 +110,8 @@ class ChulaSSSEnv(gym.Env):
         self.detector_file = '{}/detectors/sathorn_w_detectors.add.xml'.format(self.root_dir)
         print("I am checking if there is path {}".format(os.path.join(os.path.split(self.detector_file)[0], 'output')))
         if not os.path.exists(os.path.join(os.path.split(self.detector_file)[0], 'output')):
-            print("There is no path {}, Building ...".format(os.path.join(os.path.split(self.detector_file)[0])))
-            os.makedirs(os.path.join(os.path.split(self.detector_file)[0]))
+            print("There is no path {}, Building ...".format(os.path.join(os.path.split(self.detector_file)[0], 'output')))
+            os.makedirs(os.path.join(os.path.split(self.detector_file)[0], 'output'))
         self.begin_time = 21600 if (env_config['time_select'] == "morning") else 53100
         self.end_time   = 32400 if (env_config['time_select'] == "morning") else 69300
         self.seed = str(env_config['seed'])
