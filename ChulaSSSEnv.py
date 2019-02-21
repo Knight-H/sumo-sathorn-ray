@@ -47,6 +47,7 @@ class ChulaSSSEnv(gym.Env):
         self.alpha = env_config['alpha']
         self.beta = env_config['beta']
         self.name = env_config['name'] # for pickle
+        self.load = float(env_config['load'])
 
         print("i am defining action space")
         # Define action space and observation space
@@ -99,7 +100,7 @@ class ChulaSSSEnv(gym.Env):
         print("i am setting configurations")
         # Set up all Configurations
         self.root_dir = os.path.dirname(os.path.realpath(__file__))
-        self.config_file = '{}/models/sathorn-{}/sathorn_w_great2.sumo.cfg'.format(self.root_dir,env_config['time_select']) \
+        self.config_file = '{}/models/sathorn-{}/sathorn_w_great_load{}.sumo.cfg'.format(self.root_dir,env_config['time_select'],self.load) \
                            if (env_config['time_select'] == "morning" and env_config['great_edition']) \
                            else '{}/models/sathorn-{}/sathorn_w.sumo.cfg'.format(self.root_dir, env_config['time_select'])
         self.net_file = '{}/models/sathorn-{}/sathorn_w_fixed_20160404.net.xml'.format(self.root_dir, env_config['time_select'])

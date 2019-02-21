@@ -6,11 +6,12 @@ import logger_callbacks
 from ActionLogger import ActionLogger
 
 if __name__ == "__main__":
+    NAME = "test_ChulaSSSEnv_DQN3"
     ray.init(#object_store_memory=int(4e9),  # 4gb
              #redis_max_memory=int(2e9)  #2gb
              )
     experiment_spec = tune.Experiment(
-        name = "test_ChulaSSSEnv_DQN2",
+        name = NAME,
         run = "DQN",
         checkpoint_freq = 5,
         checkpoint_at_end = True,
@@ -155,9 +156,9 @@ if __name__ == "__main__":
                        "seed" : 20,
                        "impatience_time": 300,
                        "step_size" : 10,
-                       "alpha":10,
-                       "beta":1,
-                        "name" : "test_ChulaSSSEnv_DQN2",
+                       "alpha":1,
+                       "beta":0,
+                        "name" : NAME,
                         "load": 1
                        }
             

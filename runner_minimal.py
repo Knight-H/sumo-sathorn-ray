@@ -4,8 +4,6 @@ from detector_constants import *
 if WITH_LIBSUMO and not WITH_GUI: import libsumo as traci
 else: import traci
 
-from plotHelper import *
-
 
 BEGIN_TIME = 21600 if (TIME_SELECT_STR == "morning") else 53100
 END_TIME   = 32400 if (TIME_SELECT_STR == "morning") else 69300
