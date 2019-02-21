@@ -108,7 +108,7 @@ class ChulaSSSEnv(gym.Env):
         self.view_file = '{}/gui-settings/gui-settings-file-loop.xml'.format(self.root_dir) if (env_config['viewport'] == "whole_loop") \
                          else '{}/gui-settings/gui-settings-file-surasak.xml'.format(self.root_dir)
         self.detector_file = '{}/detectors/sathorn_w_detectors.add.xml'.format(self.root_dir)
-        print("I am checking if there is path ")
+        print("I am checking if there is path {}".format(os.path.join(os.path.split(self.detector_file)[0])))
         if not os.path.exists(os.path.join(os.path.split(self.detector_file)[0])):
             print("There is no path {}, Building ...".format(os.path.join(os.path.split(self.detector_file)[0])))
             os.makedirs(os.path.join(os.path.split(self.detector_file)[0]))
