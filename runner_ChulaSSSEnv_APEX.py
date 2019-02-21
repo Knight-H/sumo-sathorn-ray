@@ -11,27 +11,27 @@ from constants import STEP_LENGTH, IMPATIENCE_TIME, STEP_SIZE, GREAT_EDITION, WI
 def main():
     parser = argparse.ArgumentParser(description='ChulaSSSEnv DQN Runner')
     # === Flags for Name Arguments === 
-    parser.add_argument('-A', '--algorithm', action='store', nargs=1, default='APEX', type=str,
+    parser.add_argument('-A', '--algorithm', action='store', default='APEX', type=str,
                         help='The algorithm to train', choices=['DQN', 'APEX'])
-    parser.add_argument('-O', '--observation', action='store', nargs=1, default='default', type=str,
+    parser.add_argument('-O', '--observation', action='store', default='default', type=str,
                         help='The observation space', choices=['default', 'all3', "all3_no_downstream", "no_downstream"])
-    parser.add_argument('-s', '--seed', action='store', nargs=1, default=20, type=int,
+    parser.add_argument('-s', '--seed', action='store', default=20, type=int,
                         help='Seed number')
-    parser.add_argument('-g', '--gamma', action='store', nargs=1, default=0.9, type=float,
+    parser.add_argument('-g', '--gamma', action='store', default=0.9, type=float,
                         help='Discount Factor')
-    parser.add_argument('-a', '--alpha', action='store', nargs=1, default=10.0, type=float,
+    parser.add_argument('-a', '--alpha', action='store', default=10.0, type=float,
                         help='Reward throughput coefficient')
-    parser.add_argument('-b', '--beta', action='store', nargs=1, default=0.0, type=float,
+    parser.add_argument('-b', '--beta', action='store', default=0.0, type=float,
                         help='Reward backlog coefficient')
-    parser.add_argument('-l', '--learningRate', action='store', nargs=1, default=5e-4, type=str,
+    parser.add_argument('-l', '--learningRate', action='store', default=5e-4, type=str,
                         help='Learning Rate (scientific notation) ie. 5e-4')
-    parser.add_argument('-T', '--annealTimeStep', action='store', nargs=1, default='150k', type=str,
+    parser.add_argument('-T', '--annealTimeStep', action='store', default='150k', type=str,
                         help='Exploration Annealing Timesteps (in k)')
-    parser.add_argument('-e', '--epsilon', action='store', nargs=1, default=0.1, type=float,
+    parser.add_argument('-e', '--epsilon', action='store', default=0.1, type=float,
                         help='The exploration fraction to anneal to')
     parser.add_argument('-p', '--prioritizedReplay', action='store_true',
                         help='Whether to use prioritized replay')
-    parser.add_argument('-H', '--hidden', action='store', nargs=1, default='256', type=str,
+    parser.add_argument('-H', '--hidden', action='store', default='256', type=str,
                         help='Hidden Layers (comma separated)')
     parser.add_argument('-N', '--noisy', action='store_true',
                         help='Noisy network')
@@ -39,29 +39,29 @@ def main():
                         help='Dueling DQN')
     parser.add_argument('-d', '--double', action='store_true',
                         help='Double DQN')
-    parser.add_argument('-u', '--updateFreq', action='store', nargs=1, default=10800, type=int,
+    parser.add_argument('-u', '--updateFreq', action='store', default=10800, type=int,
                         help='Network update frequency')
-    parser.add_argument('-B', '--buffer', action='store', nargs=1, default='500k', type=str,
+    parser.add_argument('-B', '--buffer', action='store', default='500k', type=str,
                         help='Size of replay buffer (in k)')
-    parser.add_argument('-L', '--load', action='store', nargs=1, default=1.0, type=float,
+    parser.add_argument('-L', '--load', action='store', default=1.0, type=float,
                         help='Load factor of Great routes')
     # === Flags for running arguments ===
-    parser.add_argument('-i', '--trainIter', action='store', nargs=1, default=1000000, type=int,
+    parser.add_argument('-i', '--trainIter', action='store', default=1000000, type=int,
                         help='Training Iteration')
-    parser.add_argument('-c', '--checkFreq', action='store', nargs=1, default=20, type=int,
+    parser.add_argument('-c', '--checkFreq', action='store', default=20, type=int,
                         help='Checkpoint saving frequency')
     
-    parser.add_argument('--nstep', action='store', nargs=1, default=3, type=int,
+    parser.add_argument('--nstep', action='store', default=3, type=int,
                         help='N-step Q learning')
-    parser.add_argument('--gpu', action='store', nargs=1, default=1, type=int,
+    parser.add_argument('--gpu', action='store', default=1, type=int,
                         help='Number of GPU')
-    parser.add_argument('--workers', action='store', nargs=1, default=15, type=int,
+    parser.add_argument('--workers', action='store', default=15, type=int,
                         help='Number of workers')
-    parser.add_argument('--learningStart', action='store', nargs=1, default=4320, type=int,
+    parser.add_argument('--learningStart', action='store', default=4320, type=int,
                         help='Steps before Learning starts')
-    parser.add_argument('--trainBatch', action='store', nargs=1, default=256, type=int,
+    parser.add_argument('--trainBatch', action='store', default=256, type=int,
                         help='Training batch size')
-    parser.add_argument('--sampleBatch', action='store', nargs=1, default=20, type=int,
+    parser.add_argument('--sampleBatch', action='store', default=20, type=int,
                         help='Sample batch size')
     
     
@@ -69,7 +69,7 @@ def main():
 
 
     args = parser.parse_args()
-
+    print("This is arguments given ", args)
     
 
     # Name Structure

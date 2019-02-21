@@ -83,8 +83,8 @@ def on_episode_end(info):
     
     
 def on_sample_end(info):
-##    print("returned sample batch of size {}".format(info["samples"].count))
     pass
+##    print("returned sample batch of size {}".format(info["samples"].count))
 
 def on_train_result(info):
     # write all user_data to pickle
@@ -92,7 +92,7 @@ def on_train_result(info):
     _result = info["result"] # you can mutate the result dict to add new fields to return, which int32 and float32 will be handled by _TFLogger
 
     episode = _temp_episode
-##    print("Episode User Data on end ", _temp_episode)
+    print("Episode User Data on end ", _temp_episode)
     
     EPISODE_NO = _result["episodes_total"]
     print("Ended Episode Number: ", EPISODE_NO)
