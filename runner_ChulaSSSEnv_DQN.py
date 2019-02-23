@@ -50,6 +50,12 @@ def main():
                         help='Training Iteration')
     parser.add_argument('-c', '--checkFreq', action='store',  default=5, type=int,
                         help='Checkpoint saving frequency')
+    parser.add_argument('--learningStart', action='store', default=4320, type=int,
+                        help='Steps before Learning starts')
+    parser.add_argument('--trainBatch', action='store', default=4, type=int,
+                        help='Training batch size')
+    parser.add_argument('--sampleBatch', action='store', default=32, type=int,
+                        help='Sample batch size')
 
 
     args = parser.parse_args()
@@ -133,15 +139,6 @@ def main():
             "num_cpus_for_driver": 1,
 
 
-            # === Execution ===
-            # Number of environments to evaluate vectorwise per worker.
-##            "num_envs_per_worker": 1,
-            # Default sample batch size
-            "sample_batch_size": 4,
-            # Training batch size, if applicable. Should be >= sample_batch_size.
-            # Samples batches will be concatenated together to this size for training.
-            "train_batch_size": 32,
-
             # === Model ===
             # Number of atoms for representing the distribution of return. When
             # this is greater than 1, distributional Q-learning is used.
@@ -206,14 +203,17 @@ def main():
             # If not None, clip gradients during optimization at this value
             "grad_norm_clipping": 40,
             # How many steps of the model to sample before learning starts.
-            "learning_starts": 2160,
+            "learning_starts": args.learningStart,
             # Update the replay buffer with this many samples at once. Note that
             # this setting applies per-worker if num_workers > 1.
-            "sample_batch_size": 4,
+            # Default sample batch size
+            "sample_batch_size": args.sampleBatch,
             # Size of a batched sampled from replay buffer for training. Note that
             # if async_updates is set, then each worker returns gradients for a
             # batch of this size.
-            "train_batch_size": 32,
+            # Training batch size, if applicable. Should be >= sample_batch_size.
+            # Samples batches will be concatenated together to this size for training.
+            "train_batch_size": args.trainBatch,
 
             # === Parallelism ===
             # Optimizer class to use.
