@@ -1,7 +1,7 @@
 import ray
 import ray.tune  as tune
 
-from ChulaSSSEnv import ChulaSSSEnv
+from ChulaSSSEnv_test import ChulaSSSEnv
 import logger_callbacks
 from ActionLogger import ActionLogger
 import argparse
@@ -11,7 +11,7 @@ from constants import STEP_LENGTH, IMPATIENCE_TIME, STEP_SIZE, GREAT_EDITION, WI
 def main():
     parser = argparse.ArgumentParser(description='ChulaSSSEnv DQN Runner')
     # === Flags for Name Arguments === 
-    parser.add_argument('-A', '--algorithm', action='store',default='DQN', type=str,
+    parser.add_argument('-A', '--algorithm', action='store', default='APEX', type=str,
                         help='The algorithm to train', choices=['DQN', 'APEX'])
     parser.add_argument('-O', '--observation', action='store', default='default', type=str,
                         help='The observation space', choices=['default', 'all3', "all3_no_downstream", "no_downstream"])
@@ -21,17 +21,17 @@ def main():
                         help='Discount Factor')
     parser.add_argument('-a', '--alpha', action='store', default=10.0, type=float,
                         help='Reward throughput coefficient')
-    parser.add_argument('-b', '--beta', action='store',  default=0.0, type=float,
+    parser.add_argument('-b', '--beta', action='store', default=0.0, type=float,
                         help='Reward backlog coefficient')
     parser.add_argument('-l', '--learningRate', action='store', default=5e-4, type=str,
                         help='Learning Rate (scientific notation) ie. 5e-4')
-    parser.add_argument('-T', '--annealTimeStep', action='store',  default='100k', type=str,
+    parser.add_argument('-T', '--annealTimeStep', action='store', default='150k', type=str,
                         help='Exploration Annealing Timesteps (in k)')
     parser.add_argument('-e', '--epsilon', action='store', default=0.1, type=float,
                         help='The exploration fraction to anneal to')
     parser.add_argument('-p', '--prioritizedReplay', action='store_true',
                         help='Whether to use prioritized replay')
-    parser.add_argument('-H', '--hidden', action='store',  default='256', type=str,
+    parser.add_argument('-H', '--hidden', action='store', default='256', type=str,
                         help='Hidden Layers (comma separated)')
     parser.add_argument('-N', '--noisy', action='store_true',
                         help='Noisy network')
@@ -39,21 +39,37 @@ def main():
                         help='Dueling DQN')
     parser.add_argument('-d', '--double', action='store_true',
                         help='Double DQN')
-    parser.add_argument('-u', '--updateFreq', action='store',  default=800, type=int,
+    parser.add_argument('-u', '--updateFreq', action='store', default=10800, type=int,
                         help='Network update frequency')
-    parser.add_argument('-B', '--buffer', action='store', default='100k', type=str,
+    parser.add_argument('-B', '--buffer', action='store', default='500k', type=str,
                         help='Size of replay buffer (in k)')
     parser.add_argument('-L', '--load', action='store', default=1.0, type=float,
                         help='Load factor of Great routes')
     # === Flags for running arguments ===
-    parser.add_argument('-i', '--trainIter', action='store', default=100000, type=int,
+    parser.add_argument('-i', '--trainIter', action='store', default=1000000, type=int,
                         help='Training Iteration')
-    parser.add_argument('-c', '--checkFreq', action='store',  default=5, type=int,
+    parser.add_argument('-c', '--checkFreq', action='store', default=20, type=int,
                         help='Checkpoint saving frequency')
+    
+    parser.add_argument('--nstep', action='store', default=3, type=int,
+                        help='N-step Q learning')
+    parser.add_argument('--gpu', action='store', default=1, type=int,
+                        help='Number of GPU')
+    parser.add_argument('--workers', action='store', default=15, type=int,
+                        help='Number of workers')
+    parser.add_argument('--learningStart', action='store', default=4320, type=int,
+                        help='Steps before Learning starts')
+    parser.add_argument('--trainBatch', action='store', default=256, type=int,
+                        help='Training batch size')
+    parser.add_argument('--sampleBatch', action='store', default=20, type=int,
+                        help='Sample batch size')
+    
+    
+
 
 
     args = parser.parse_args()
-
+    print("This is arguments given ", args)
     
 
     # Name Structure
@@ -104,7 +120,6 @@ def main():
         stop = {
             "training_iteration" : args.trainIter
         },
-        upload_dir = "gs://ray_results/",
         custom_loggers = [ActionLogger],
         config = {
             # === Configure Callbacks ===
@@ -118,29 +133,20 @@ def main():
             
             # === Resources ===
             # Number of actors used for parallelism
-            "num_workers": 0,
+            "num_workers": args.workers,
             # Number of GPUs to allocate to the driver. Note that not all algorithms
             # can take advantage of driver GPUs. This can be fraction (e.g., 0.3 GPUs).
-            "num_gpus": 0,
+            "num_gpus": args.gpu,
             # Number of CPUs to allocate per worker.
-            "num_cpus_per_worker": 4,
+            "num_cpus_per_worker": 1,
             # Number of GPUs to allocate per worker. This can be fractional.
             "num_gpus_per_worker": 0,
             # Any custom resources to allocate per worker.
             "custom_resources_per_worker": {},
             # Number of CPUs to allocate for the driver. Note: this only takes effect
             # when running in Tune.
-            "num_cpus_for_driver": 1,
-
-
-            # === Execution ===
-            # Number of environments to evaluate vectorwise per worker.
-##            "num_envs_per_worker": 1,
-            # Default sample batch size
-            "sample_batch_size": 4,
-            # Training batch size, if applicable. Should be >= sample_batch_size.
-            # Samples batches will be concatenated together to this size for training.
-            "train_batch_size": 32,
+            "num_cpus_for_driver": 1,            
+            
 
             # === Model ===
             # Number of atoms for representing the distribution of return. When
@@ -158,7 +164,7 @@ def main():
             # Hidden layer sizes of the state and action value networks
             "hiddens": OPTIONS['hidden'],
             # N-step Q learning
-            "n_step": 1,
+            "n_step": args.nstep,
 
             # === Exploration ===
             # Max num timesteps for annealing schedules. Exploration is annealed from
@@ -167,7 +173,7 @@ def main():
             "schedule_max_timesteps": OPTIONS['epsilon_ts'],
             # Number of env steps to optimize for before returning
                         #morning: 10800/10 = 1080 steps total 
-            "timesteps_per_iteration": 1080,
+            "timesteps_per_iteration": 50,
             # Fraction of entire training period over which the exploration rate is
             # annealed
             "exploration_fraction": 1,
@@ -206,18 +212,21 @@ def main():
             # If not None, clip gradients during optimization at this value
             "grad_norm_clipping": 40,
             # How many steps of the model to sample before learning starts.
-            "learning_starts": 2160,
+            "learning_starts": args.learningStart,
             # Update the replay buffer with this many samples at once. Note that
             # this setting applies per-worker if num_workers > 1.
-            "sample_batch_size": 4,
+            # Default sample batch size
+            "sample_batch_size": args.sampleBatch,
             # Size of a batched sampled from replay buffer for training. Note that
             # if async_updates is set, then each worker returns gradients for a
             # batch of this size.
-            "train_batch_size": 32,
+            # Training batch size, if applicable. Should be >= sample_batch_size.
+            # Samples batches will be concatenated together to this size for training.
+            "train_batch_size": args.trainBatch,
 
             # === Parallelism ===
             # Optimizer class to use.
-            "optimizer_class": "SyncReplayOptimizer",
+            "optimizer_class": "AsyncReplayOptimizer",
             # Whether to use a distribution of epsilons across workers for exploration.
             "per_worker_exploration": False,
             # Whether to compute priorities on workers.

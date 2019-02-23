@@ -74,6 +74,8 @@ def on_episode_end(info):
     for jam_length in _JAM_LENGTHS:
         _temp_episode[jam_length] = episode.user_data[jam_length].copy()
     _temp_episode['name'] = _info['name']
+
+    print("This is _temp_episode on end ", _temp_episode)
     
     _reset_episode_user_data(episode)
     
@@ -90,7 +92,7 @@ def on_train_result(info):
     # write all user_data to pickle
     # reset all user_data
     _result = info["result"] # you can mutate the result dict to add new fields to return, which int32 and float32 will be handled by _TFLogger
-
+    print("this is info to use ", info)
     episode = _temp_episode
     print("Episode User Data on end ", _temp_episode)
     

@@ -16,6 +16,7 @@ def main():
 
     print("Generating loads...")
     for load in LOADS:
+        _NEW_CONTENT = _CONTENT.copy()
         _CONFIG = """<configuration>
     <input>
         <net-file value="sathorn_w_fixed_20160404.net.xml" />
@@ -36,11 +37,13 @@ def main():
             _ROW = _CONTENT[route].split(' ')
 ##            print(_ROW)
             _ROW[6] = 'vehsPerHour="{}"'.format(float(_ROW[6][len("vehsPerHour")+2:-1])*load)
+            if load == 0.0:
+                _ROW = ["\t<!-- -->"]
 ##            print(_ROW)
-            _CONTENT[route] = " ".join(_ROW)
+            _NEW_CONTENT[route] = " ".join(_ROW)
         
         with open(os.path.join('models', 'sathorn-morning', 'Great-route', 'sathorn_w_20160422_great_load{}.rou.xml').format(load), 'w') as f:
-            f.write("\n".join(_CONTENT))
+            f.write("\n".join(_NEW_CONTENT))
 
         print("Generating config {}/{}".format(load, 10.0))
         with open(os.path.join('models', 'sathorn-morning', 'sathorn_w_great_load{}.sumo.cfg').format(load), 'w') as f:

@@ -339,7 +339,7 @@
     <flow begin="22500" end="23400" departPos="free" departLane="best" id="161" vehsPerHour="4.0" route="route167" type="Car"/>
     <flow begin="22500" end="23400" departPos="free" departLane="best" id="162" vehsPerHour="32.0" route="route168" type="Car"/>
     <flow begin="22500" end="23400" departPos="free" departLane="best" id="163" vehsPerHour="140.0" route="route170" type="Car"/>
-	<flow begin="22500" end="23400" departPos="free" departLane="best" id="test1" vehsPerHour="0.0" route="route173" type="Car"/>
+	<flow begin="22500" end="23400" departPos="free" departLane="best" id="test1" vehsPerHour="1500.0" route="route173" type="Car"/>
     <flow begin="23400" end="24300" departPos="free" departLane="best" id="164" vehsPerHour="324.0" route="route54" type="Car"/>
     <flow begin="23400" end="24300" departPos="free" departLane="best" id="165" vehsPerHour="156.0" route="route57" type="Car"/>
     <flow begin="23400" end="24300" departPos="free" departLane="best" id="166" vehsPerHour="180.0" route="route58" type="Car"/>
@@ -414,7 +414,7 @@
     <flow begin="23400" end="24300" departPos="free" departLane="best" id="235" vehsPerHour="12.0" route="route167" type="Car"/>
     <flow begin="23400" end="24300" departPos="free" departLane="best" id="236" vehsPerHour="32.0" route="route168" type="Car"/>
     <flow begin="23400" end="24300" departPos="free" departLane="best" id="237" vehsPerHour="148.0" route="route170" type="Car"/>
-	<flow begin="23400" end="24300" departPos="free" departLane="best" id="test2" vehsPerHour="0.0" route="route173" type="Car"/>
+	<flow begin="23400" end="24300" departPos="free" departLane="best" id="test2" vehsPerHour="1500.0" route="route173" type="Car"/>
     <flow begin="24300" end="25200" departPos="free" departLane="best" id="238" vehsPerHour="324.0" route="route54" type="Car"/>
     <flow begin="24300" end="25200" departPos="free" departLane="best" id="239" vehsPerHour="120.0" route="route57" type="Car"/>
     <flow begin="24300" end="25200" departPos="free" departLane="best" id="240" vehsPerHour="196.0" route="route58" type="Car"/>
@@ -488,7 +488,7 @@
     <flow begin="24300" end="25200" departPos="free" departLane="best" id="308" vehsPerHour="20.0" route="route166" type="Car"/>
     <flow begin="24300" end="25200" departPos="free" departLane="best" id="309" vehsPerHour="12.0" route="route167" type="Car"/>
     <flow begin="24300" end="25200" departPos="free" departLane="best" id="310" vehsPerHour="32.0" route="route168" type="Car"/>
-	<flow begin="24300" end="25200" departPos="free" departLane="best" id="Loop2_1" vehsPerHour="0.0" route="route172" type="Car"/>
+	<flow begin="24300" end="25200" departPos="free" departLane="best" id="Loop2_1" vehsPerHour="1500.0" route="route172" type="Car"/>
 	
 	
 	<!--flow begin="24300" end="25200" departPos="free" departLane="best" id="Loop1_1" vehsPerHour="425.0" route="route171" type="Car"/-->
@@ -497,7 +497,7 @@
     <flow begin="25200" end="26100" departPos="free" departLane="best" id="313" vehsPerHour="204.0" route="route57" type="Car"/>
     <flow begin="25200" end="26100" departPos="free" departLane="best" id="314" vehsPerHour="264.0" route="route58" type="Car"/>
     <!--<flow begin="25200" end="26100" departPos="free" departLane="best" id="315" vehsPerHour="155.0" route="route59" type="Car"/>-->
-	<flow begin="25200" end="26100" departPos="free" departLane="best" id="Loop2_2" vehsPerHour="0.0" route="route172" type="Car"/>
+	<flow begin="25200" end="26100" departPos="free" departLane="best" id="Loop2_2" vehsPerHour="1500.0" route="route172" type="Car"/>
 	
     <flow begin="25200" end="26100" departPos="free" departLane="best" id="316" vehsPerHour="192.0" route="route65" type="Car"/>
     <flow begin="25200" end="26100" departPos="free" departLane="best" id="317" vehsPerHour="32.0" route="route66" type="Car"/>
@@ -569,8 +569,8 @@
     <flow begin="25200" end="26100" departPos="free" departLane="best" id="383" vehsPerHour="28.0" route="route167" type="Car"/>
     <flow begin="25200" end="26100" departPos="free" departLane="best" id="384" vehsPerHour="32.0" route="route168" type="Car"/>
     <flow begin="25200" end="26100" departPos="free" departLane="best" id="385" vehsPerHour="196.0" route="route170" type="Car"/>
-	<flow begin="25200" end="26100" departPos="free" departLane="best" id="Loop1_2" vehsPerHour="0.0" route="route171" type="Car"/>
-	<flow begin="26100" end="27000" departPos="free" departLane="best" id="Loop1_3" vehsPerHour="0.0" route="route171" type="Car"/>
+	<flow begin="25200" end="26100" departPos="free" departLane="best" id="Loop1_2" vehsPerHour="2125.0" route="route171" type="Car"/>
+	<flow begin="26100" end="27000" departPos="free" departLane="best" id="Loop1_3" vehsPerHour="2125.0" route="route171" type="Car"/>
     <flow begin="26100" end="27000" departPos="free" departLane="best" id="386" vehsPerHour="324.0" route="route54" type="Car"/>
 	
     <flow begin="26100" end="27000" departPos="free" departLane="best" id="387" vehsPerHour="196.0" route="route57" type="Car"/>
@@ -721,7 +721,7 @@
     <flow begin="27000" end="27900" departPos="free" departLane="best" id="531" vehsPerHour="36.0" route="route167" type="Car"/>
     <flow begin="27000" end="27900" departPos="free" departLane="best" id="532" vehsPerHour="248.0" route="route168" type="Car"/>
     <flow begin="27000" end="27900" departPos="free" departLane="best" id="533" vehsPerHour="320.0" route="route170" type="Car"/>
-	<flow begin="27000" end="27900" departPos="free" departLane="best" id="Loop1_4" vehsPerHour="0.0" route="route171" type="Car"/>
+	<flow begin="27000" end="27900" departPos="free" departLane="best" id="Loop1_4" vehsPerHour="2125.0" route="route171" type="Car"/>
     
 	<flow begin="27900" end="28800" departPos="free" departLane="best" id="534" vehsPerHour="324.0" route="route54" type="Car"/>
     <flow begin="27900" end="28800" departPos="free" departLane="best" id="535" vehsPerHour="196.0" route="route57" type="Car"/>
@@ -797,8 +797,8 @@
     <flow begin="27900" end="28800" departPos="free" departLane="best" id="605" vehsPerHour="20.0" route="route167" type="Car"/>
     <flow begin="27900" end="28800" departPos="free" departLane="best" id="606" vehsPerHour="336.0" route="route168" type="Car"/>
     <flow begin="27900" end="28800" departPos="free" departLane="best" id="607" vehsPerHour="432.0" route="route170" type="Car"/>
-	<flow begin="27900" end="28800" departPos="free" departLane="best" id="Loop1_5" vehsPerHour="0.0" route="route171" type="Car"/>
-	<flow begin="28800" end="29700" departPos="free" departLane="best" id="Loop1_6" vehsPerHour="0.0" route="route171" type="Car"/>
+	<flow begin="27900" end="28800" departPos="free" departLane="best" id="Loop1_5" vehsPerHour="2125.0" route="route171" type="Car"/>
+	<flow begin="28800" end="29700" departPos="free" departLane="best" id="Loop1_6" vehsPerHour="2125.0" route="route171" type="Car"/>
     <flow begin="28800" end="29700" departPos="free" departLane="best" id="608" vehsPerHour="332.0" route="route54" type="Car"/>
     <flow begin="28800" end="29700" departPos="free" departLane="best" id="609" vehsPerHour="104.0" route="route57" type="Car"/>
     <flow begin="28800" end="29700" departPos="free" departLane="best" id="610" vehsPerHour="404.0" route="route58" type="Car"/>
