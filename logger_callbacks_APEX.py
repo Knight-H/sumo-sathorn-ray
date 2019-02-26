@@ -64,6 +64,17 @@ def on_episode_start(info):
     episode = info["episode"]
     print("episode {} started".format(episode.episode_id))
     _reset_episode_user_data(episode)
+
+    # Directory for pickles
+    _DIR_TO_WRITE = os.path.join(_LOG_DIR, _info['name'], 'pickle')
+    if not os.path.exists(_DIR_TO_WRITE):
+        os.makedirs(_DIR_TO_WRITE)
+    # Check whether written graph yet
+    _GRAPH_PICKLE = os.path.join(_DIR_TO_WRITE, 'isGraph.pickle')
+    if not os.path.exists(_GRAPH_PICKLE):
+        with open(_GRAPH_PICKLE, 'wb') as f:
+            pickle.dump(False, f, pickle.HIGHEST_PROTOCOL)
+        
     
 def on_episode_step(info):
     ## Logging in user_data:
@@ -83,10 +94,7 @@ def on_episode_end(info):
     _TIME_NOW = datetime.now().strftime("%Y-%m-%dT%H.%M.%S")
     
     print(" Writing pickle .. ")
-    # Directory for pickles
-    _DIR_TO_WRITE = os.path.join(_LOG_DIR, _info['name'], 'pickle')
-    if not os.path.exists(_DIR_TO_WRITE):
-        os.makedirs(_DIR_TO_WRITE)
+    
 
     _AGGREGATE_PICKLE = {}
 
@@ -189,36 +197,42 @@ def on_train_result(info):
     print("Ended Episode Total: ", EPISODE_NO)
 
 
+    with open(_GRAPH_PICKLE, 'wb') as f:
+        _IS_GRAPH = pickle.load(f)
+            
     # --- Policy Graph ----
-##    if _result['training_iteration'] == 1:
-    print("I am writing agent in ", _agent._result_logger.logdir)
-    policy_graph = _agent.local_evaluator.policy_map["default"].sess.graph
-    writer = tf.summary.FileWriter(_agent._result_logger.logdir, policy_graph)
-    
-    t = _result.get("timesteps_total") or _result["training_iteration"]
+    if _result['custom_metrics'] and not _IS_GRAPH:
+        print("I am writing agent in ", _agent._result_logger.logdir)
+        policy_graph = _agent.local_evaluator.policy_map["default"].sess.graph
+        writer = tf.summary.FileWriter(_agent._result_logger.logdir, policy_graph)
+        
+        t = _result.get("timesteps_total") or _result["training_iteration"]
 
-    # Write actions
-##    print(" This is actions ", _result['custom_metrics']['actions'])
-##    actions = _result['custom_metrics']['actions']
-##    _hist = create_HistogramProto(np.array(actions), bins=9)
-##    action_stats = tf.Summary(value = [tf.Summary.Value(tag="actions", histo=_hist)])
-##    writer.add_summary(action_stats, t)
+        # Write actions
+    ##    print(" This is actions ", _result['custom_metrics']['actions'])
+    ##    actions = _result['custom_metrics']['actions']
+    ##    _hist = create_HistogramProto(np.array(actions), bins=9)
+    ##    action_stats = tf.Summary(value = [tf.Summary.Value(tag="actions", histo=_hist)])
+    ##    writer.add_summary(action_stats, t)
 
-    # Flush a lot before Segmentation Fault
-##    writer.flush()
+        # Flush a lot before Segmentation Fault
+    ##    writer.flush()
 
-##    _green_times = _calculate_green_time(actions, 10 ,5)
-##    for phase in _green_times:
-##        _hist = create_HistogramProto(np.array(_green_times[phase]), bins=15)
-##        action_stats = tf.Summary(value = [tf.Summary.Value(tag="action_green_time_{}".format(phase), histo=_hist)])
-##        writer.add_summary(action_stats, t)
-##
-##        # Flush a lot before Segmentation Fault
-##        if phase%3 == 0 and phase != 0:
-##            writer.flush()
+    ##    _green_times = _calculate_green_time(actions, 10 ,5)
+    ##    for phase in _green_times:
+    ##        _hist = create_HistogramProto(np.array(_green_times[phase]), bins=15)
+    ##        action_stats = tf.Summary(value = [tf.Summary.Value(tag="action_green_time_{}".format(phase), histo=_hist)])
+    ##        writer.add_summary(action_stats, t)
+    ##
+    ##        # Flush a lot before Segmentation Fault
+    ##        if phase%3 == 0 and phase != 0:
+    ##            writer.flush()
 
-    writer.flush()
+        writer.flush()
 
-    
-    writer.close()
+        
+        writer.close()
+
+        with open(_GRAPH_PICKLE, 'wb') as f:
+            pickle.dump(True, f, pickle.HIGHEST_PROTOCOL)
 
