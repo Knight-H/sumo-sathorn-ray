@@ -200,7 +200,7 @@ def on_train_result(info):
         with open(_GRAPH_PICKLE, 'wb') as f:
             pickle.dump(False, f, pickle.HIGHEST_PROTOCOL)
 
-    with open(_GRAPH_PICKLE, 'wb') as f:
+    with open(_GRAPH_PICKLE, 'rb') as f:
         _IS_GRAPH = pickle.load(f)
             
     # --- Policy Graph ----
