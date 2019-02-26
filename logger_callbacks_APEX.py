@@ -199,6 +199,7 @@ def on_train_result(info):
     if not os.path.exists(_GRAPH_PICKLE):
         with open(_GRAPH_PICKLE, 'wb') as f:
             pickle.dump(False, f, pickle.HIGHEST_PROTOCOL)
+        print("written isGraph pickle")
 
     with open(_GRAPH_PICKLE, 'rb') as f:
         _IS_GRAPH = pickle.load(f)
