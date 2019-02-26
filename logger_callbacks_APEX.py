@@ -64,7 +64,7 @@ def on_episode_start(info):
     episode = info["episode"]
     print("episode {} started".format(episode.episode_id))
     _reset_episode_user_data(episode)
-
+    _info = episode.last_info_for()
     # Directory for pickles
     _DIR_TO_WRITE = os.path.join(_LOG_DIR, _info['name'], 'pickle')
     if not os.path.exists(_DIR_TO_WRITE):
