@@ -60,9 +60,9 @@ def main():
                         help='Number of workers')
     parser.add_argument('--learningStart', action='store', default=4320, type=int,
                         help='Steps before Learning starts')
-    parser.add_argument('--trainBatch', action='store', default=26, type=int,
+    parser.add_argument('--trainBatch', action='store', default=256, type=int,
                         help='Training batch size')
-    parser.add_argument('--sampleBatch', action='store', default=256, type=int,
+    parser.add_argument('--sampleBatch', action='store', default=32, type=int,
                         help='Sample batch size')
     
     
@@ -74,7 +74,7 @@ def main():
     
 
     # Name Structure
-    # Algorithm_ObservationSpace_Seed_Gamma_Alpha_Beta_LearningRate
+    # Algorithm_ObservationSpace_RewardWeight_Seed_Gamma_Alpha_Beta_LearningRate
     #          _ExplorationAnnealingTimesteps_ExplorationFraction
     #          _PrioritizedReplay_Hidden_Noisy_Dueling_DoubleQ_NetworkUpdateFreq_Buffer
     #          _LoadFactor

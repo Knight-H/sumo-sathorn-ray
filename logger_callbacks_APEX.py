@@ -51,7 +51,8 @@ def _log_episode_user_data(episode):
     episode.user_data["total_throughput"].append(_info['total_throughput'])
     episode.user_data["weighted_occupancy"].append(_info['weighted_occupancy'])
     for travel_time in _TRAVEL_TIMES:
-        episode.user_data[travel_time].append(_info[travel_time])
+        episode.user_data[travel_time].append(int(_info[travel_time]))
+##        print(travel_time ," : ", _info[travel_time])
     for jam_length in _JAM_LENGTHS:
         episode.user_data[jam_length].append(_info[jam_length])
     for mean_speed in _MEAN_SPEEDS:
@@ -117,45 +118,45 @@ def on_episode_end(info):
 
     # --- Travel Time ---
     for travel_time in _TRAVEL_TIMES:
-        episode.custom_metrics[travel_time] = np.mean(episode.user_data[travel_time], dtype=np.float16)
+        episode.custom_metrics[travel_time] = np.mean(episode.user_data[travel_time], dtype=np.uint32)
 
-        _AGGREGATE_PICKLE[travel_time] = np.array(episode.user_data[travel_time], dtype=np.float16)
+        _AGGREGATE_PICKLE[travel_time] = np.array(episode.user_data[travel_time], dtype=np.uint32)
         
 ##        with open(os.path.join(_DIR_TO_WRITE, '{}-ep{}_{}.pickle'.format(_TIME_NOW,_ID, travel_time)), 'wb') as f:
 ##            pickle.dump(np.array(episode.user_data[travel_time], dtype=np.float16), f, pickle.HIGHEST_PROTOCOL)
 
     # --- Total Throughput ---                                 
-    episode.custom_metrics["total_throughput"] = np.mean(episode.user_data["total_throughput"], dtype=np.float16)
+    episode.custom_metrics["total_throughput"] = np.mean(episode.user_data["total_throughput"], dtype=np.uint16)
 
-    _AGGREGATE_PICKLE["total_throughput"] = np.array(episode.user_data["total_throughput"], dtype=np.uint8)
+    _AGGREGATE_PICKLE["total_throughput"] = np.array(episode.user_data["total_throughput"], dtype=np.uint16)
     
 ##    with open(os.path.join(_DIR_TO_WRITE, '{}-ep{}_total_throughput.pickle'.format(_TIME_NOW,_ID)), 'wb') as f:
 ##        pickle.dump(np.array(episode.user_data["total_throughput"], dtype=np.uint8), f, pickle.HIGHEST_PROTOCOL)
 
     # --- Weighted Occupancy --- 
-    episode.custom_metrics["weighted_occupancy"] = np.mean(episode.user_data["weighted_occupancy"], dtype=np.float16)
+    episode.custom_metrics["weighted_occupancy"] = np.mean(episode.user_data["weighted_occupancy"], dtype=np.uint16)
 
-    _AGGREGATE_PICKLE["weighted_occupancy"] = np.array(episode.user_data["weighted_occupancy"], dtype=np.float16)
+    _AGGREGATE_PICKLE["weighted_occupancy"] = np.array(episode.user_data["weighted_occupancy"], dtype=np.uint16)
 ##    with open(os.path.join(_DIR_TO_WRITE, '{}-ep{}_weighted_occupancy.pickle'.format(_TIME_NOW,_ID)), 'wb') as f:
 ##        pickle.dump(np.array(episode.user_data["weighted_occupancy"], dtype=np.float16), f, pickle.HIGHEST_PROTOCOL)
 
     # --- Jam Length ---
     for jam_length in _JAM_LENGTHS:
-        episode.custom_metrics[jam_length] = np.mean(episode.user_data[jam_length], dtype=np.float16)
-        _AGGREGATE_PICKLE[jam_length] = np.array(episode.user_data[jam_length], dtype=np.float16)
+        episode.custom_metrics[jam_length] = np.mean(episode.user_data[jam_length], dtype=np.uint16)
+        _AGGREGATE_PICKLE[jam_length] = np.array(episode.user_data[jam_length], dtype=np.uint16)
 ##        with open(os.path.join(_DIR_TO_WRITE, '{}-ep{}_{}.pickle'.format(_TIME_NOW,_ID, jam_length)), 'wb') as f:
 ##            pickle.dump(np.array(episode.user_data[jam_length], dtype=np.float16), f, pickle.HIGHEST_PROTOCOL)
     # --- Mean Speed ---
     for mean_speed in _MEAN_SPEEDS:
-        episode.custom_metrics[mean_speed] = np.mean(episode.user_data[mean_speed], dtype=np.float16)
-        _AGGREGATE_PICKLE[mean_speed] = np.array(episode.user_data[mean_speed], dtype=np.float16)
+        episode.custom_metrics[mean_speed] = np.mean(episode.user_data[mean_speed], dtype=np.float32)
+        _AGGREGATE_PICKLE[mean_speed] = np.array(episode.user_data[mean_speed], dtype=np.float32)
 ##        with open(os.path.join(_DIR_TO_WRITE, '{}-ep{}_{}.pickle'.format(_TIME_NOW,_ID, mean_speed)), 'wb') as f:
 ##            pickle.dump(np.array(episode.user_data[mean_speed], dtype=np.float16), f, pickle.HIGHEST_PROTOCOL)
             
     # --- Waiting Time ---
     for waiting_time in _WAITING_TIMES:
-        episode.custom_metrics[waiting_time] = np.mean(episode.user_data[waiting_time], dtype=np.float16)
-        _AGGREGATE_PICKLE[waiting_time] = np.array(episode.user_data[waiting_time], dtype=np.float16)
+        episode.custom_metrics[waiting_time] = np.mean(episode.user_data[waiting_time], dtype=np.uint32)
+        _AGGREGATE_PICKLE[waiting_time] = np.array(episode.user_data[waiting_time], dtype=np.uint32)
 ##        with open(os.path.join(_DIR_TO_WRITE, '{}-ep{}_{}.pickle'.format(_TIME_NOW,_ID, waiting_time)), 'wb') as f:
 ##            pickle.dump(np.array(episode.user_data[waiting_time], dtype=np.float16), f, pickle.HIGHEST_PROTOCOL)
 
@@ -182,13 +183,14 @@ def on_train_result(info):
     _result = info["result"] # you can mutate the result dict to add new fields to return, which int32 and float32 will be handled by _TFLogger
     _agent = info["agent"]
 
-    print(_result['custom_metrics'])
+##    print(_result['custom_metrics'])
 
     EPISODE_NO = _result["episodes_total"]
     print("Ended Episode Total: ", EPISODE_NO)
 
 
     # --- Policy Graph ----
+##    if _result['training_iteration'] == 1:
     print("I am writing agent in ", _agent._result_logger.logdir)
     policy_graph = _agent.local_evaluator.policy_map["default"].sess.graph
     writer = tf.summary.FileWriter(_agent._result_logger.logdir, policy_graph)
@@ -219,4 +221,4 @@ def on_train_result(info):
 
     
     writer.close()
-    
+

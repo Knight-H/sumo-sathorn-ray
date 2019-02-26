@@ -260,7 +260,7 @@ class ChulaSSSEnv(gym.Env):
                                                                             self.end_time,
                                                                             int(reward),
                                                                             total_throughput,
-                                                                            int(_backlog)),
+                                                                            int(_weighted_occupancy)),
                   end = '\r'
                   )
             
@@ -352,9 +352,9 @@ class ChulaSSSEnv(gym.Env):
         _EDGES = (edge_surasak[:2], edge_charoenRat[:1], edge_sathornS[:6], edge_sathornN[:4])
 
         
-        for waiting_time, edge_list in zip(_MEAN_SPEEDS, _EDGES):
+        for waiting_time, edge_list in zip(_WAITING_TIMES, _EDGES):
             # Waiting Time over EACH edge
-            waiting_times = [] = []
+            waiting_times = [] 
             for edge in edge_list:
                 waiting_times.append(traci.edge.getWaitingTime(edge))
             _wait_dict[waiting_time] = np.sum(waiting_times)
