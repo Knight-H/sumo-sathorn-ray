@@ -64,16 +64,7 @@ def on_episode_start(info):
     episode = info["episode"]
     print("episode {} started".format(episode.episode_id))
     _reset_episode_user_data(episode)
-    _info = episode.last_info_for()
-    # Directory for pickles
-    _DIR_TO_WRITE = os.path.join(_LOG_DIR, _info['name'], 'pickle')
-    if not os.path.exists(_DIR_TO_WRITE):
-        os.makedirs(_DIR_TO_WRITE)
-    # Check whether written graph yet
-    _GRAPH_PICKLE = os.path.join(_DIR_TO_WRITE, 'isGraph.pickle')
-    if not os.path.exists(_GRAPH_PICKLE):
-        with open(_GRAPH_PICKLE, 'wb') as f:
-            pickle.dump(False, f, pickle.HIGHEST_PROTOCOL)
+    
         
     
 def on_episode_step(info):
@@ -84,6 +75,9 @@ def on_episode_step(info):
     ##    - backlog (from cell_occupancy)
     ##    - jam length
     episode = info["episode"]
+
+    
+    
     _log_episode_user_data(episode)
     
 def on_episode_end(info):
@@ -94,6 +88,10 @@ def on_episode_end(info):
     _TIME_NOW = datetime.now().strftime("%Y-%m-%dT%H.%M.%S")
     
     print(" Writing pickle .. ")
+    # Directory for pickles
+    _DIR_TO_WRITE = os.path.join(_LOG_DIR, _info['name'], 'pickle')
+    if not os.path.exists(_DIR_TO_WRITE):
+        os.makedirs(_DIR_TO_WRITE)
     
 
     _AGGREGATE_PICKLE = {}
@@ -195,7 +193,12 @@ def on_train_result(info):
 
     EPISODE_NO = _result["episodes_total"]
     print("Ended Episode Total: ", EPISODE_NO)
-
+    
+    # Check whether written graph yet
+    _GRAPH_PICKLE = os.path.join(_LOG_DIR, 'isGraph.pickle')
+    if not os.path.exists(_GRAPH_PICKLE):
+        with open(_GRAPH_PICKLE, 'wb') as f:
+            pickle.dump(False, f, pickle.HIGHEST_PROTOCOL)
 
     with open(_GRAPH_PICKLE, 'wb') as f:
         _IS_GRAPH = pickle.load(f)
