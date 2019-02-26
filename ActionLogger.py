@@ -20,11 +20,18 @@ def create_HistogramProto(values, bins = 9):
 
     # Fill fields of histogram proto
     hist = tf.HistogramProto()
-    hist.min = float(np.min(values))
-    hist.max = float(np.max(values))
-    hist.num = int(np.prod(values.shape))
-    hist.sum = float(np.sum(values))
-    hist.sum_squares = float(np.sum(values**2))
+    if np.any(values):
+        hist.min = float(np.min(values))
+        hist.max = float(np.max(values))
+        hist.num = int(np.prod(values.shape))
+        hist.sum = float(np.sum(values))
+        hist.sum_squares = float(np.sum(values**2))
+    else:
+        hist.min = 0
+        hist.max = 0
+        hist.num = 0
+        hist.sum = 0
+        hist.sum_squares = 0
 
     # since first bucket is from -DBL_MAX to bucket_limit(0)
     bin_edges = bin_edges[1:]

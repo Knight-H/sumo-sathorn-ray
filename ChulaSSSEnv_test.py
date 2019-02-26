@@ -48,7 +48,9 @@ class ChulaSSSEnv(gym.Env):
         self.beta = env_config['beta']
         self.name = env_config['name'] # for pickle
         self.load = float(env_config['load'])
-
+        self.idle = env_config.get('idle', False)         # this is for baseline (no action)
+        self.reward_weight = env_config.get('reward_weight', 'total-cellCap')
+        
         print("i am defining action space")
         # Define action space and observation space
         self.action_space = spaces.Discrete(9)
@@ -66,6 +68,25 @@ class ChulaSSSEnv(gym.Env):
             8: "GGGGGGGGgrrrrrrrrrrrrrrrrgggrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
             0: "GGGGrrrrgrrrrrrrrrrrrrrrrgggrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
             }
+        #Map between RedYellowGreenState to actionid
+        self.map_action = {v:i for i,v in self.action_map.items()}
+
+        # Map between action id and chosen observation space (for red light delay)
+        self.action_obs_map = {
+            # choose all
+            -1 : [0,1,2,5,6,7,9,10,11,13,14,15],
+            0 : [0,1,2,5,6,7,9,10,11,13,14,15],
+            1 : [0,1,2,5,6,7] ,             # surasak and charoenRat
+            2 : [5,6,7,9,10,11,13,14,15],   # charoenRat, sathornS, sathornN
+            3 : [9,10,11,13,14,15],         # sathornS, sathornN
+            4 : [0,1,2,5,6,7,9,10,11],      # surasak, charoenRat, sathornS
+            5 : [0,1,2,5,6,7,13,14,15],     # surasak, charoenRat, sathornN
+            6 : [5,6,7,9,10,11,13,14,15],   # charoenRat, sathornS, sathornN
+            7 : [5,6,7,9,10,11,13,14,15],   # charoenRat, sathornS, sathornN
+            8 : [0,1,2,9,10,11,13,14,15],   # surasak, sathornS, sathornN
+        }
+        self._INDEX = np.array([1,2,3]*4)
+        
         # Map between action id and downstream edge (for use in throughput)
 ##        DISCARDED since what about always green?
 ##        self.action_downstream_edge_map = {
@@ -151,9 +172,12 @@ class ChulaSSSEnv(gym.Env):
         print("starting traci with command" , " ".join(self.cmd))
         traci.start(self.cmd)
         self._step = self.begin_time
-        # Begin with action id of 1 
-        self._action = 1
-        self._setTrafficLights(self._action)
+        # Begin with action id of 1 if not idle
+        if not self.idle:
+            self._action = 1
+            self._setTrafficLights(self._action)
+        else:
+            self._action = self._getTrafficLights()
 
     def reset(self):
         """Resets the state of the environment and returns an initial observation.
@@ -166,8 +190,11 @@ class ChulaSSSEnv(gym.Env):
         traci.start(self.cmd)
         self._step = self.begin_time
         # Begin with action id of 1 
-        self._action = 1
-        self._setTrafficLights(self._action)
+        if not self.idle:
+            self._action = 1
+            self._setTrafficLights(self._action)
+        else:
+            self._action = self._getTrafficLights()
         
         return (np.zeros(shape=(21,)), 1)
 
@@ -186,8 +213,9 @@ class ChulaSSSEnv(gym.Env):
             info (dict): contains auxiliary diagnostic information (helpful for debugging, and sometimes learning)
         
         """
+##        print("I AM IN STEPPP")
         # Make yellow lights at the beginning of the timestep if change traffic phase
-        if action != self._action:
+        if action != self._action and not self.idle:
             self._setYellowLights(self._action, action)
 
         total_throughput = 0
@@ -198,10 +226,13 @@ class ChulaSSSEnv(gym.Env):
             total_throughput += self._getThroughput()
             
         # Change traffic phase after 5 seconds and set self._action to be equal to the action
-        if action != self._action:
+        if action != self._action and not self.idle:
             self._setTrafficLights(action)
             self._action = action
-        
+        if self.idle:
+            self._action = self._getTrafficLights()
+
+##        print(self._action)
         # need to step 1 at a time since induction loop requires addition
         for _ in range(self.step_size-5):
             self._step += 1
@@ -210,25 +241,29 @@ class ChulaSSSEnv(gym.Env):
 
         _travel_times = self._getTravelTimes() # Return dictionary of travel times
         _jam_lengths = self._getJamLengths()   # Return dictionary of jam lengths
+        _mean_speeds = self._getMeanSpeeds()   # Return dictionary of mean_speeds
+        _waiting_times = self._getWaitingTimes()   # Return dictionary of waiting_times
 
         observation = self._getObservation()
-        reward, _backlog = self._getReward(total_throughput, observation[0][:-3]) #neglect downstream
-        done = (self._step >= self.begin_time+500)        # done if step is more than end time
+        reward, _weighted_occupancy = self._getReward(total_throughput, observation[0][:-3]) #neglect downstream
+##        done = (self._step >= self.end_time)        # done if step is more than end time
+        done = (self._step >= self.begin_time+500)  
         info = {"total_throughput": total_throughput,
-                "backlog" : _backlog,
+                "weighted_occupancy" : _weighted_occupancy,
                 "name": self.name,
                 }
-        info = {**info, **_travel_times, **_jam_lengths} # Merge all dictionaies
+        info = {**info, **_travel_times, **_jam_lengths, **_mean_speeds, **_waiting_times} # Merge all dictionaies
 ##        print(info)
 
         if WITH_LIBSUMO and not WITH_GUI:
-            print("Step {}/{} Reward: {} Throughput: {} Backlog: {}".format(self._step,
+            print("Step {}/{} Reward: {} Throughput: {} WeightedOccupancy: {}*****".format(self._step,
                                                                             self.end_time,
                                                                             int(reward),
                                                                             total_throughput,
-                                                                            int(_backlog)),
+                                                                            int(_weighted_occupancy)),
                   end = '\r'
                   )
+            
         return observation, reward, done, info
     
     def close(self):
@@ -240,9 +275,21 @@ class ChulaSSSEnv(gym.Env):
 
     def _getReward(self, throughput, occupancy):
         """Returns the reward given throughput and occupancy OF UPSTREAM and backlog"""
-        backlog = np.dot(occupancy/100, self.cell_capacities)
-        reward = self.alpha*throughput - self.beta*backlog
-        return reward, backlog
+        # Use only first 3 cells
+        if self.reward_weight == "total-cellCap":
+            weighted_occupancy = np.dot(np.take(occupancy/100, self.action_obs_map[-1]),
+                                np.take(self.cell_capacities , self.action_obs_map[-1]))
+        elif self.reward_weight == "total-index":
+            weighted_occupancy = np.dot(np.take(occupancy/100, self.action_obs_map[-1]),
+                                np.take(self._INDEX , self.action_obs_map[-1]))
+        elif self.reward_weight == "redLight-cellCap":
+            weighted_occupancy = np.dot(np.take(occupancy/100, self.action_obs_map[self._action]),
+                                np.take(self.cell_capacities , self.action_obs_map[self._action]))
+        elif self.reward_weight == "redLight-index":
+            weighted_occupancy = np.dot(np.take(occupancy/100, self.action_obs_map[self._action]),
+                                np.take(self._INDEX , self.action_obs_map[self._action]))
+        reward = self.alpha*throughput - self.beta*weighted_occupancy
+        return reward, weighted_occupancy
 
     def _getTravelTimes(self):
         """Returns a dictionary of Travel Times"""
@@ -280,6 +327,38 @@ class ChulaSSSEnv(gym.Env):
                     jam_lengths.append(avg_jam_length)                
             _jam_dict[jam_length] = np.sum(jam_lengths)
         return _jam_dict
+    
+    def _getMeanSpeeds(self):
+        """Returns a dictionary of Mean Speeds"""
+        _speed_dict = {}
+
+        _MEAN_SPEEDS = ("mean_speed_surasak", "mean_speed_charoenRat", "mean_speed_sathornS", "mean_speed_sathornN")
+        _EDGES = (edge_surasak[:2], edge_charoenRat[:1], edge_sathornS[:6], edge_sathornN[:4])
+        
+        for mean_speed, edge_list in zip(_MEAN_SPEEDS, _EDGES):
+            # Mean Speed over EACH edge
+            mean_speeds = []
+            for edge in edge_list:
+                mean_speeds.append(traci.edge.getLastStepMeanSpeed(edge))
+            _speed_dict[mean_speed] = np.mean(mean_speeds)
+
+        return _speed_dict
+
+    def _getWaitingTimes(self):
+        """Returns a dictionary of Waiting Time"""
+        _wait_dict = {}
+
+        _WAITING_TIMES = ("waiting_time_surasak", "waiting_time_charoenRat", "waiting_time_sathornS", "waiting_time_sathornN")
+        _EDGES = (edge_surasak[:2], edge_charoenRat[:1], edge_sathornS[:6], edge_sathornN[:4])
+
+        
+        for waiting_time, edge_list in zip(_WAITING_TIMES, _EDGES):
+            # Waiting Time over EACH edge
+            waiting_times = [] = []
+            for edge in edge_list:
+                waiting_times.append(traci.edge.getWaitingTime(edge))
+            _wait_dict[waiting_time] = np.sum(waiting_times)
+        return _wait_dict 
         
 
     def _getThroughput(self):
@@ -358,3 +437,7 @@ class ChulaSSSEnv(gym.Env):
     def _setTrafficLights(self, action_id):
         """ Wrapper of setting state of Traffic lights"""
         self._trafficlights.setRedYellowGreenState('cluster_46_47', self.action_map[action_id])
+
+    def _getTrafficLights(self):
+        """Wrapper of getting state of Traffic lights"""
+        return self.map_action[self._trafficlights.getRedYellowGreenState('cluster_46_47')]

@@ -19,7 +19,7 @@ def main():
                         help='Seed number')
     parser.add_argument('-g', '--gamma', action='store', default=0.9, type=float,
                         help='Discount Factor')
-    parser.add_argument('-a', '--alpha', action='store', default=10.0, type=float,
+    parser.add_argument('-a', '--alpha', action='store', default=1.0, type=float,
                         help='Reward throughput coefficient')
     parser.add_argument('-b', '--beta', action='store',  default=0.0, type=float,
                         help='Reward backlog coefficient')
@@ -41,14 +41,14 @@ def main():
                         help='Double DQN')
     parser.add_argument('-u', '--updateFreq', action='store',  default=800, type=int,
                         help='Network update frequency')
-    parser.add_argument('-B', '--buffer', action='store', default='100k', type=str,
+    parser.add_argument('-B', '--buffer', action='store', default='50k', type=str,
                         help='Size of replay buffer (in k)')
     parser.add_argument('-L', '--load', action='store', default=1.0, type=float,
                         help='Load factor of Great routes')
     # === Flags for running arguments ===
     parser.add_argument('-i', '--trainIter', action='store', default=100000, type=int,
                         help='Training Iteration')
-    parser.add_argument('-c', '--checkFreq', action='store',  default=5, type=int,
+    parser.add_argument('-c', '--checkFreq', action='store',  default=0, type=int,
                         help='Checkpoint saving frequency')
     parser.add_argument('--learningStart', action='store', default=4320, type=int,
                         help='Steps before Learning starts')
@@ -75,7 +75,8 @@ def main():
                                                                                                args.annealTimeStep, args.epsilon, args.prioritizedReplay,
                                                                                               args.hidden, args.noisy, args.dueling, args.double,
                                                                                                       args.updateFreq, args.buffer, args.load
-                                                                                              )
+                                                                        )
+    
     print("Starting Experiment with name {}".format(NAME))
     
     OPT = NAME.split("_")
@@ -98,6 +99,7 @@ def main():
                "buffer" : int(OPT[15][1:-1])*1000,
                "load" : float(OPT[16][1:])
                }
+    NAME = "baseline_idle"
     
     ray.init(#object_store_memory=int(4e9),  # 4gb
              #redis_max_memory=int(2e9)  #2gb
@@ -247,7 +249,8 @@ def main():
                        "alpha":OPTIONS['alpha'],
                        "beta":OPTIONS['beta'],
                         "name" : NAME,
-                        "load": OPTIONS['load']
+                        "load": OPTIONS['load'],
+                        "idle" : True,
                        }
             
             }

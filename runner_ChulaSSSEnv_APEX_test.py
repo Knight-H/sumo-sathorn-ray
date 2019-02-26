@@ -2,14 +2,13 @@ import ray
 import ray.tune  as tune
 
 from ChulaSSSEnv_test import ChulaSSSEnv
-import logger_callbacks
-from ActionLogger import ActionLogger
+import logger_callbacks_APEX
 import argparse
 
 from constants import STEP_LENGTH, IMPATIENCE_TIME, STEP_SIZE, GREAT_EDITION, WITH_GUI, WITH_LIBSUMO, VIEWPORT, TIME_SELECT_STR
 
 def main():
-    parser = argparse.ArgumentParser(description='ChulaSSSEnv DQN Runner')
+    parser = argparse.ArgumentParser(description='ChulaSSSEnv APEX Runner')
     # === Flags for Name Arguments === 
     parser.add_argument('-A', '--algorithm', action='store', default='APEX', type=str,
                         help='The algorithm to train', choices=['DQN', 'APEX'])
@@ -45,6 +44,8 @@ def main():
                         help='Size of replay buffer (in k)')
     parser.add_argument('-L', '--load', action='store', default=1.0, type=float,
                         help='Load factor of Great routes')
+    parser.add_argument('-R', '--rewardWeight', action='store', default='total-cellCap', type=str,
+                        help='The weight for the reward', choices=['total-cellCap', 'total-index', 'redLight-cellCap', 'redLight-index'])
     # === Flags for running arguments ===
     parser.add_argument('-i', '--trainIter', action='store', default=1000000, type=int,
                         help='Training Iteration')
@@ -53,15 +54,15 @@ def main():
     
     parser.add_argument('--nstep', action='store', default=3, type=int,
                         help='N-step Q learning')
-    parser.add_argument('--gpu', action='store', default=1, type=int,
+    parser.add_argument('--gpu', action='store', default=0, type=int,
                         help='Number of GPU')
-    parser.add_argument('--workers', action='store', default=15, type=int,
+    parser.add_argument('--workers', action='store', default=3, type=int,
                         help='Number of workers')
     parser.add_argument('--learningStart', action='store', default=4320, type=int,
                         help='Steps before Learning starts')
-    parser.add_argument('--trainBatch', action='store', default=256, type=int,
+    parser.add_argument('--trainBatch', action='store', default=26, type=int,
                         help='Training batch size')
-    parser.add_argument('--sampleBatch', action='store', default=20, type=int,
+    parser.add_argument('--sampleBatch', action='store', default=256, type=int,
                         help='Sample batch size')
     
     
@@ -80,7 +81,7 @@ def main():
     #
     # ie. DQN_default_s20_g0.6_a10_b1_lr5e-4_et50k_e0.1_pr0_h256_n0_d0_qq0_u800_l1.0
 
-    NAME = "{}_{}_s{}_g{}_a{}_b{}_lr{:.0e}_et{}_e{}_pr{:n}_h{}_n{:n}_d{:n}_qq{:n}_u{}_b{}_l{}".format(args.algorithm, args.observation, args.seed,
+    NAME = "{}_{}_{}_s{}_g{}_a{}_b{}_lr{:.0e}_et{}_e{}_pr{:n}_h{}_n{:n}_d{:n}_qq{:n}_u{}_b{}_l{}".format(args.algorithm, args.observation, args.rewardWeight, args.seed,
                                                                                                args.gamma, args.alpha, args.beta, args.learningRate,
                                                                                                args.annealTimeStep, args.epsilon, args.prioritizedReplay,
                                                                                               args.hidden, args.noisy, args.dueling, args.double,
@@ -92,21 +93,22 @@ def main():
 
     OPTIONS = {"alg": OPT[0],
                "obs_space": OPT[1],
-               "seed" : int(OPT[2][1:]),
-               "gamma" : float(OPT[3][1:]),
-               "alpha" : float(OPT[4][1:]),
-               "beta" : float(OPT[5][1:]),
-               "lr"   : float(OPT[6][2:]),
-               "epsilon_ts" : int(OPT[7][2:-1])*1000,
-               "epsilon" : float(OPT[8][1:]) ,
-               "pr" :  bool(int(OPT[9][2:])),
-               "hidden": list(map(int,OPT[10][1:].split(','))),
-               "noisy" : bool(int(OPT[11][1:])),
-               "dueling" : bool(int(OPT[12][1:])),
-               "doubleQ" : bool(int(OPT[13][2:])),
-               "update_freq" : int(OPT[14][1:]),
-               "buffer" : int(OPT[15][1:-1])*1000,
-               "load" : float(OPT[16][1:])
+               "reward_weight" : OPT[2],
+               "seed" : int(OPT[3][1:]),
+               "gamma" : float(OPT[4][1:]),
+               "alpha" : float(OPT[5][1:]),
+               "beta" : float(OPT[6][1:]),
+               "lr"   : float(OPT[7][2:]),
+               "epsilon_ts" : int(OPT[8][2:-1])*1000,
+               "epsilon" : float(OPT[9][1:]) ,
+               "pr" :  bool(int(OPT[10][2:])),
+               "hidden": list(map(int,OPT[11][1:].split(','))),
+               "noisy" : bool(int(OPT[12][1:])),
+               "dueling" : bool(int(OPT[13][1:])),
+               "doubleQ" : bool(int(OPT[14][2:])),
+               "update_freq" : int(OPT[15][1:]),
+               "buffer" : int(OPT[16][1:-1])*1000,
+               "load" : float(OPT[17][1:])
                }
     
     ray.init(#object_store_memory=int(4e9),  # 4gb
@@ -120,15 +122,15 @@ def main():
         stop = {
             "training_iteration" : args.trainIter
         },
-        custom_loggers = [ActionLogger],
+        custom_loggers = [],
         config = {
             # === Configure Callbacks ===
             "callbacks": {
-                    "on_episode_start": tune.function(logger_callbacks.on_episode_start),
-                    "on_episode_step": tune.function(logger_callbacks.on_episode_step),
-                    "on_episode_end": tune.function(logger_callbacks.on_episode_end),
-                    "on_sample_end": tune.function(logger_callbacks.on_sample_end),
-                    "on_train_result": tune.function(logger_callbacks.on_train_result),
+                    "on_episode_start": tune.function(logger_callbacks_APEX.on_episode_start),
+                    "on_episode_step": tune.function(logger_callbacks_APEX.on_episode_step),
+                    "on_episode_end": tune.function(logger_callbacks_APEX.on_episode_end),
+                    "on_sample_end": tune.function(logger_callbacks_APEX.on_sample_end),
+                    "on_train_result": tune.function(logger_callbacks_APEX.on_train_result),
             },
             
             # === Resources ===
@@ -173,7 +175,7 @@ def main():
             "schedule_max_timesteps": OPTIONS['epsilon_ts'],
             # Number of env steps to optimize for before returning
                         #morning: 10800/10 = 1080 steps total 
-            "timesteps_per_iteration": 50,
+            "timesteps_per_iteration": 500,
             # Fraction of entire training period over which the exploration rate is
             # annealed
             "exploration_fraction": 1,

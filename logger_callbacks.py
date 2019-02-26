@@ -2,6 +2,7 @@ import pickle
 import os
 import numpy as np
 from util import _calculate_avg_green_time
+import tensorflow as tf
 
 
 _LOG_DIR = os.path.join(os.path.expanduser('~'), "ray_results")
@@ -36,7 +37,10 @@ def _log_episode_user_data(episode):
 
     for i, cell in enumerate(_CELL_ORDER):
         episode.user_data["cell_occupancy_{}".format(cell)].append(_observation[i])
-    episode.user_data["action"].append(episode.last_action_for())
+##    episode.user_data["action"].append(episode.last_action_for())
+##    print(_observation[-9:], " which is ", np.where(_observation[-9:])[0][0])
+    #using obs one-hot encoding
+    episode.user_data["action"].append(np.where(_observation[-9:])[0][0])
     for travel_time in _TRAVEL_TIMES:
         episode.user_data[travel_time].append(_info[travel_time])
     episode.user_data["total_throughput"].append(_info['total_throughput'])
@@ -92,6 +96,7 @@ def on_train_result(info):
     # write all user_data to pickle
     # reset all user_data
     _result = info["result"] # you can mutate the result dict to add new fields to return, which int32 and float32 will be handled by _TFLogger
+    _agent = info["agent"]
 ##    print("this is info to use ", info)
     episode = _temp_episode
 ##    print("Episode User Data on end ", _temp_episode)
@@ -114,7 +119,7 @@ def on_train_result(info):
 
     # --- Action ---
     # Action List will not log in _TFLogger, so need custom logger
-    _result["actions"] = _temp_episode["action"]
+    _result["actions"] = np.array(_temp_episode["action"], dtype=np.uint8)
     with open(os.path.join(_DIR_TO_WRITE, 'ep{}_actions.pickle'.format(EPISODE_NO)), 'wb') as f:
         pickle.dump(_temp_episode["action"], f, pickle.HIGHEST_PROTOCOL)
 
@@ -127,21 +132,29 @@ def on_train_result(info):
     for travel_time in _TRAVEL_TIMES:
         _result[travel_time] = np.mean(_temp_episode[travel_time], dtype=np.float32)
         with open(os.path.join(_DIR_TO_WRITE, 'ep{}_{}.pickle'.format(EPISODE_NO, travel_time)), 'wb') as f:
-            pickle.dump(_temp_episode[travel_time], f, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(np.array(_temp_episode[travel_time], dtype=np.float16), f, pickle.HIGHEST_PROTOCOL)
 
     # --- Total Throughput ---                                 
     _result["total_throughput"] = np.mean(_temp_episode["total_throughput"], dtype=np.float32)
     with open(os.path.join(_DIR_TO_WRITE, 'ep{}_total_throughput.pickle'.format(EPISODE_NO)), 'wb') as f:
-        pickle.dump(_temp_episode["total_throughput"], f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(np.array(_temp_episode["total_throughput"], dtype=np.uint8), f, pickle.HIGHEST_PROTOCOL)
 
     # --- Backlog --- 
     _result["backlog"] = np.mean(_temp_episode["backlog"], dtype=np.float32)
-    with open(os.path.join(_DIR_TO_WRITE, 'ep{}_total_throughput.pickle'.format(EPISODE_NO)), 'wb') as f:
-        pickle.dump(_temp_episode["backlog"], f, pickle.HIGHEST_PROTOCOL)
+    with open(os.path.join(_DIR_TO_WRITE, 'ep{}_backlog.pickle'.format(EPISODE_NO)), 'wb') as f:
+        pickle.dump(np.array(_temp_episode["backlog"], dtype=np.uint8), f, pickle.HIGHEST_PROTOCOL)
 
     # --- Jam Length ---
     for jam_length in _JAM_LENGTHS:
         _result[jam_length] = np.mean(_temp_episode[jam_length], dtype=np.float32)
         with open(os.path.join(_DIR_TO_WRITE, 'ep{}_{}.pickle'.format(EPISODE_NO, jam_length)), 'wb') as f:
-            pickle.dump(_temp_episode[jam_length], f, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(np.array(_temp_episode[jam_length], dtype=np.uint8), f, pickle.HIGHEST_PROTOCOL)
+
+
+
+    # --- Policy Graph ----
+    print("I am writing agent in ", _agent._result_logger.logdir)
+    policy_graph = _agent.local_evaluator.policy_map["default"].sess.graph
+    writer = tf.summary.FileWriter(_agent._result_logger.logdir, policy_graph)
+    writer.close()
     
