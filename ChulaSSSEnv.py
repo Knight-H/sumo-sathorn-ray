@@ -280,13 +280,13 @@ class ChulaSSSEnv(gym.Env):
             weighted_occupancy = np.dot(np.take(occupancy/100, self.action_obs_map[-1]),
                                 np.take(self.cell_capacities , self.action_obs_map[-1]))
         elif self.reward_weight == "total-index":
-            weighted_occupancy = np.dot(np.take(occupancy/100, self.action_obs_map[-1]),
+            weighted_occupancy = np.dot(np.take(occupancy, self.action_obs_map[-1]),
                                         self._INDEX )
         elif self.reward_weight == "redLight-cellCap":
             weighted_occupancy = np.dot(np.take(occupancy/100, self.action_obs_map[self._action]),
                                 np.take(self.cell_capacities , self.action_obs_map[self._action]))
         elif self.reward_weight == "redLight-index":
-            weighted_occupancy = np.dot(np.take(occupancy/100, self.action_obs_map[self._action]),
+            weighted_occupancy = np.dot(np.take(occupancy, self.action_obs_map[self._action]),
                                         self._INDEX[:len(self.action_obs_map[self._action])])
         reward = self.alpha*throughput - self.beta*weighted_occupancy
         return reward, weighted_occupancy
