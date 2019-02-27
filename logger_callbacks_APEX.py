@@ -99,7 +99,7 @@ def on_episode_end(info):
     # --- Occupancy ----
     for i, cell in enumerate(_CELL_ORDER):
         _occupancies = np.array(episode.user_data["cell_occupancy_{}".format(cell)], dtype = np.float16)
-        episode.custom_metrics["cell_occupancy_{}".format(cell)] = np.mean(_occupancies, dtype=np.float16)
+        episode.custom_metrics["cell_occupancy_{}".format(cell)] = np.mean(_occupancies, dtype=np.float32)
         
         _AGGREGATE_PICKLE["cell_occupancy_{}".format(cell)] = _occupancies
 

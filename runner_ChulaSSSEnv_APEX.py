@@ -261,7 +261,8 @@ def main():
                        "alpha":OPTIONS['alpha'],
                        "beta":OPTIONS['beta'],
                         "name" : NAME,
-                        "load": OPTIONS['load']
+                        "load": OPTIONS['load'],
+                        "reward_weight": OPTIONS['reward_weight'],
                        }
             
             }

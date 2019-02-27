@@ -50,7 +50,7 @@ class ChulaSSSEnv(gym.Env):
         self.load = float(env_config['load'])
         self.idle = env_config.get('idle', False)         # this is for baseline (no action)
         self.reward_weight = env_config.get('reward_weight', 'total-cellCap')
-        
+        print("running with reward weight " , self.reward_weight)        
         print("i am defining action space")
         # Define action space and observation space
         self.action_space = spaces.Discrete(9)
