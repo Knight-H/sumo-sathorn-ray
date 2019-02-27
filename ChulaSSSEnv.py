@@ -275,6 +275,7 @@ class ChulaSSSEnv(gym.Env):
 
     def _getReward(self, throughput, occupancy):
         """Returns the reward given throughput and occupancy OF UPSTREAM and backlog"""
+        weighted_occupancy = -1
         # Use only first 3 cells
         if self.reward_weight == "total-cellCap":
             weighted_occupancy = np.dot(np.take(occupancy/100, self.action_obs_map[-1]),

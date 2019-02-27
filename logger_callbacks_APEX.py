@@ -98,7 +98,7 @@ def on_episode_end(info):
 
     # --- Occupancy ----
     for i, cell in enumerate(_CELL_ORDER):
-        _occupancies = np.array(episode.user_data["cell_occupancy_{}".format(cell)], dtype = np.float16)
+        _occupancies = np.array(episode.user_data["cell_occupancy_{}".format(cell)], dtype = np.float32)
         episode.custom_metrics["cell_occupancy_{}".format(cell)] = np.mean(_occupancies, dtype=np.float32)
         
         _AGGREGATE_PICKLE["cell_occupancy_{}".format(cell)] = _occupancies
@@ -132,24 +132,24 @@ def on_episode_end(info):
 ##            pickle.dump(np.array(episode.user_data[travel_time], dtype=np.float16), f, pickle.HIGHEST_PROTOCOL)
 
     # --- Total Throughput ---                                 
-    episode.custom_metrics["total_throughput"] = np.mean(episode.user_data["total_throughput"], dtype=np.uint16)
+    episode.custom_metrics["total_throughput"] = np.mean(episode.user_data["total_throughput"], dtype=np.uint32)
 
-    _AGGREGATE_PICKLE["total_throughput"] = np.array(episode.user_data["total_throughput"], dtype=np.uint16)
+    _AGGREGATE_PICKLE["total_throughput"] = np.array(episode.user_data["total_throughput"], dtype=np.uint32)
     
 ##    with open(os.path.join(_DIR_TO_WRITE, '{}-ep{}_total_throughput.pickle'.format(_TIME_NOW,_ID)), 'wb') as f:
 ##        pickle.dump(np.array(episode.user_data["total_throughput"], dtype=np.uint8), f, pickle.HIGHEST_PROTOCOL)
 
     # --- Weighted Occupancy --- 
-    episode.custom_metrics["weighted_occupancy"] = np.mean(episode.user_data["weighted_occupancy"], dtype=np.uint16)
+    episode.custom_metrics["weighted_occupancy"] = np.mean(episode.user_data["weighted_occupancy"], dtype=np.uint32)
 
-    _AGGREGATE_PICKLE["weighted_occupancy"] = np.array(episode.user_data["weighted_occupancy"], dtype=np.uint16)
+    _AGGREGATE_PICKLE["weighted_occupancy"] = np.array(episode.user_data["weighted_occupancy"], dtype=np.uint32)
 ##    with open(os.path.join(_DIR_TO_WRITE, '{}-ep{}_weighted_occupancy.pickle'.format(_TIME_NOW,_ID)), 'wb') as f:
 ##        pickle.dump(np.array(episode.user_data["weighted_occupancy"], dtype=np.float16), f, pickle.HIGHEST_PROTOCOL)
 
     # --- Jam Length ---
     for jam_length in _JAM_LENGTHS:
-        episode.custom_metrics[jam_length] = np.mean(episode.user_data[jam_length], dtype=np.uint16)
-        _AGGREGATE_PICKLE[jam_length] = np.array(episode.user_data[jam_length], dtype=np.uint16)
+        episode.custom_metrics[jam_length] = np.mean(episode.user_data[jam_length], dtype=np.uint32)
+        _AGGREGATE_PICKLE[jam_length] = np.array(episode.user_data[jam_length], dtype=np.uint32)
 ##        with open(os.path.join(_DIR_TO_WRITE, '{}-ep{}_{}.pickle'.format(_TIME_NOW,_ID, jam_length)), 'wb') as f:
 ##            pickle.dump(np.array(episode.user_data[jam_length], dtype=np.float16), f, pickle.HIGHEST_PROTOCOL)
     # --- Mean Speed ---

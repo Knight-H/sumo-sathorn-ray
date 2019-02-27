@@ -177,12 +177,13 @@ def pickle_generate():
         pickle.dump(PICKLE_detector_names, file, protocol=pickle.HIGHEST_PROTOCOL)
 
     # Return the cell capacities of a detector list
+    # ACTUALLY NEED MAX CELL CAPACITY for the occupancy since no minGAP!!!
     def cell_capacities(detector_list):
         capacities = []
         for cell in detector_list:
             cell_capacity = 0
             for edge, _, _ in cell:
-                cell_capacity += LEN_EDGES[edge]*NUM_LANES[edge]/(V_LENGTH+MIN_GAP)
+                cell_capacity += LEN_EDGES[edge]*NUM_LANES[edge]/(V_LENGTH)
             capacities.append(cell_capacity)
         return capacities
     cell_capacities_sathornN = cell_capacities(detector_sathornN)

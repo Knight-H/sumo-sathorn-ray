@@ -1,8 +1,7 @@
 from constants import *
 from detector_constants import *
 
-if WITH_LIBSUMO and not WITH_GUI: import libsumo as traci
-else: import traci
+import traci
 
 
 BEGIN_TIME = 21600 if (TIME_SELECT_STR == "morning") else 53100
@@ -14,9 +13,9 @@ def main():
     # CAUTION! step is in MILLISECONDS in version 0.30.0, but in SECONDS in version 1.1.0
     #step = BEGIN_TIME*1000
     step = BEGIN_TIME
+    print("i have step " , step)
     #while step < END_TIME*1000:
     while step <= END_TIME:
-        
 ##        if step%(3600*1000) == 0:
 ##            print("Current Time: {}:00".format(step//(3600*1000)))
          
@@ -24,7 +23,7 @@ def main():
 ##            for lane in range(0,NUM_LANES[edge]):
 ##                print("{}: {}".format(lane, traci.lanearea.getLastStepOccupancy("e2_{}_{}_0".format(edge,lane))))
         
-        traci.simulationStep(step=step)
+        traci.simulationStep()
 ##        traci.simulationStep()
 ##        step += STEP_SIZE*1000
         step += STEP_SIZE
@@ -35,7 +34,11 @@ def main():
 
 
 if __name__ == "__main__":
-    sumoBinary = sumolib.checkBinary('sumo-gui') if WITH_GUI else sumolib.checkBinary('sumo')
+    sumoBinary = sumolib.checkBinary('sumo-gui')
+    CONFIG_FILE = '{}/models/sathorn-{}/sathorn_w_great_load1.0.sumo.cfg'.format(ROOT_DIR, TIME_SELECT_STR)
+    EDITED_FILE = '{}/models/sathorn-{}/sathon_wide_tls_20160418_edited.add.xml'.format(ROOT_DIR, TIME_SELECT_STR)
+    VIEW_FILE = '{}/gui-settings/gui-settings-file-loop.xml'.format(ROOT_DIR)
+
     print("Loading Config File {}".format(CONFIG_FILE))
     print("Loading Add File {}".format(EDITED_FILE))
 
@@ -68,14 +71,15 @@ if __name__ == "__main__":
                    '--time-to-teleport', '-1',
                    '--ignore-junction-blocker', '-1',
                    '--random', 'false',
-                   '--seed', SEED,
+                   '--seed', '20',
                    '--start','true',
                    #'--quit-on-end','true',
                    '--no-warnings', 'true',
-                   '--step-length', STEP_LENGTH,
+                   '--step-length', '1',
                    '--gui-settings-file', VIEW_FILE,
-                   '--time-to-impatience', IMPATIENCE_TIME,
+                   '--time-to-impatience', '300',
                    ])
+    print("i ran start")
     main()
     
     

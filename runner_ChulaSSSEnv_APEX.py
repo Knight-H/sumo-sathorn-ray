@@ -233,9 +233,9 @@ def main():
             # Optimizer class to use.
             "optimizer_class": "AsyncReplayOptimizer",
             # Whether to use a distribution of epsilons across workers for exploration.
-            "per_worker_exploration": False,
+            "per_worker_exploration": True,
             # Whether to compute priorities on workers.
-            "worker_side_prioritization": False,
+            "worker_side_prioritization": True,
             # Prevent iterations from going lower than this time span
             "min_iter_time_s": 1,
             
