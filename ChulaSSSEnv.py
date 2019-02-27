@@ -287,7 +287,7 @@ class ChulaSSSEnv(gym.Env):
                                 np.take(self.cell_capacities , self.action_obs_map[self._action]))
         elif self.reward_weight == "redLight-index":
             weighted_occupancy = np.dot(np.take(occupancy/100, self.action_obs_map[self._action]),
-                                        self._INDEX)
+                                        self._INDEX[:len(self.action_obs_map[self._action])])
         reward = self.alpha*throughput - self.beta*weighted_occupancy
         return reward, weighted_occupancy
 
