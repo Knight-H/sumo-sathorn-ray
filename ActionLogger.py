@@ -1,4 +1,4 @@
-from ray.tune.logger import TFLogger, to_tf_values
+from ray.tune.logger import _TFLogger, to_tf_values
 import tensorflow as tf
 import numpy as np
 import os
@@ -43,7 +43,7 @@ def create_HistogramProto(values, bins = 9):
 
     return hist
 
-class ActionLogger(TFLogger):
+class ActionLogger(_TFLogger):
 
     def _init(self):
         _LOG_DIR = os.path.join(self.logdir, 'custom_events')
