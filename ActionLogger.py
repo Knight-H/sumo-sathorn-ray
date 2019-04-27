@@ -1,4 +1,4 @@
-from ray.tune.logger import _TFLogger, to_tf_values
+from ray.tune.logger import TFLogger, to_tf_values
 import tensorflow as tf
 import numpy as np
 import os
