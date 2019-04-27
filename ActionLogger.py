@@ -43,7 +43,7 @@ def create_HistogramProto(values, bins = 9):
 
     return hist
 
-class ActionLogger(_TFLogger):
+class ActionLogger(TFLogger):
 
     def _init(self):
         _LOG_DIR = os.path.join(self.logdir, 'custom_events')

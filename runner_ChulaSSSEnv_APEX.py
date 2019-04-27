@@ -124,7 +124,7 @@ def main():
         stop = {
             "training_iteration" : args.trainIter
         },
-        upload_dir = "gs://ray_results/",
+        #upload_dir = "gs://ray_results/",
         custom_loggers = [],
         config = {
             # === Configure Callbacks ===
